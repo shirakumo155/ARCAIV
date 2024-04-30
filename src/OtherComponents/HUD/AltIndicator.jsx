@@ -31,7 +31,7 @@ export function AltIndicator(props){
         <>
             <image
                     key={"AltIndicatorCenter"}
-                    href={'/HUDicons/indicatorAlt.png'}
+                    href={'./HUDicons/indicatorAlt.png'}
                     width={indicatorSize*1.2}
                     height={indicatorSize}
                     transform ={"translate(" + (3*props.CanvasWidth/4+10) + " ," + (props.CanvasHeight/2-indicatorSize/2) + ") rotate(180, 25, 25)"}
