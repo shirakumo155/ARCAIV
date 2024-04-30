@@ -22,7 +22,7 @@ export default function TopBar(){
                         alt="profile-user"
                         width="50px"
                         height="50px"
-                        src={`./ATLA.svg`}
+                        src={`./images/ATLA.svg`}
                         style={{ cursor: "pointer", borderRadius: "50%" }}
                 />
                 </Box>
