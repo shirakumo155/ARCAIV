@@ -58,7 +58,7 @@ const RWRcanvas = (props) =>{
 
         // load back ground
         const backgound = new Image();
-        backgound.src = '/HUDicons/RWR.png';
+        backgound.src = './src/images/HUDicons/RWR.png';
         backgound.onload = () => {backgroundRef.current = backgound}
 
         // This defines an event canvas parent box is resized

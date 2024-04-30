@@ -29,7 +29,7 @@ export default function Drone({name}) {
     const dataLength = useCsvDataStore.getState().dataLength
     
     useEffect(() => {
-        const { nodes, _ } = useGLTF("/gltf/drone.glb");
+        const { nodes, _ } = useGLTF("./src/images/gltf/drone.glb");
         const Material = new THREE.MeshStandardMaterial({
             transparent: true, 
             opacity: 0.85 }); 
@@ -138,4 +138,4 @@ export default function Drone({name}) {
 }
 
 
-useGLTF.preload("/gltf/drone.glb");
+useGLTF.preload("./src/images/gltf/drone.glb");

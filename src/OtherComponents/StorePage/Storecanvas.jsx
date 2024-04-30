@@ -26,12 +26,12 @@ const Storecanvas = (props) =>{
 
         // load mrm image
         const mrm = new Image();
-        mrm.src = '/HUDicons/MRM.png';
+        mrm.src = './src/images/HUDicons/MRM.png';
         mrm.onload = () => {mrmRef.current = mrm}
   
         // load back ground
         const backgound = new Image();
-        backgound.src = '/HUDicons/DroneDetail.png';
+        backgound.src = './src/images/HUDicons/DroneDetail.png';
         backgound.onload = () => {backgroundRef.current = backgound}
 
         // This defines an event canvas parent box is resized

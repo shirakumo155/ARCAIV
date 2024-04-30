@@ -4,8 +4,6 @@ import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
-import InputBase from "@mui/material/InputBase";
-import { useCsvDataStore } from "../../Store"
 
 export default function TopBar(){
     const theme = useTheme();
@@ -22,7 +20,7 @@ export default function TopBar(){
                         alt="profile-user"
                         width="50px"
                         height="50px"
-                        src={`./images/ATLA.svg`}
+                        src={`./src/images/ATLA.svg`}
                         style={{ cursor: "pointer", borderRadius: "50%" }}
                 />
                 </Box>

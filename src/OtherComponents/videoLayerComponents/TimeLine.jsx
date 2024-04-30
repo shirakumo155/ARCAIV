@@ -158,7 +158,7 @@ const GanttComponent = ({items, bColor, itemHeight, blueColor, redColor}) => {
                                 return(
                                 <Box position="absolute" height={itemHeight*0.5} width={itemHeight*0.5}
                                 sx={{
-                                    backgroundImage: "url('/HUDicons/MissileFiredIconBlue.png')",
+                                    backgroundImage: "url('./src/images/HUDicons/MissileFiredIconBlue.png')",
                                     backgroundRepeat: "no-repeat",
                                     backgroundSize: "contain",
                                     left: (mrmFired[item.name+":"+el]/(droneLifeSpan[item.name]/100)).toString()+"%"
@@ -181,7 +181,7 @@ const GanttComponent = ({items, bColor, itemHeight, blueColor, redColor}) => {
                                 return(
                                 <Box position="absolute" height={itemHeight*0.5} width={itemHeight*0.5}
                                 sx={{
-                                    backgroundImage: "url('/HUDicons/MissileFiredIconRed.png')",
+                                    backgroundImage: "url('./src/images/HUDicons/MissileFiredIconRed.png')",
                                     backgroundRepeat: "no-repeat",
                                     backgroundSize: "contain",
                                     left: (mrmFired[item.name+":"+el]/(droneLifeSpan[item.name]/100)).toString()+"%"
@@ -269,7 +269,7 @@ const TimeControlSliderThumb = ({}) => {
 
     useEffect(() => {
         const thumb = new Image();
-        thumb.src = '/img/TimeControlThumb.png';
+        thumb.src = './src/images/img/TimeControlThumb.png';
         thumb.onload = () => {
             thumbRef.current = thumb;
         draw();

@@ -33,11 +33,11 @@ export function PitchLadderSimple(props){
         let tickArr = []
         for(let i=-125; i<126; i=i+5){
             let label = (i).toString()
-            let imgRef = '/HUDicons/pitch_positive.png'
+            let imgRef = './src/images/HUDicons/pitch_positive.png'
             if (i==0){
-                imgRef = '/HUDicons/pitch_horizon.png'
+                imgRef = './src/images/HUDicons/pitch_horizon.png'
             }else if(i<0){
-                imgRef = '/HUDicons/pitch_negative.png'
+                imgRef = './src/images/HUDicons/pitch_negative.png'
             }
             tickArr.push({angle: i, pos:"", visible: "hidden", text: label, imgRef: imgRef})
         }

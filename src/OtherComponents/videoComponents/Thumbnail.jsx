@@ -1,8 +1,7 @@
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import * as d3 from 'd3'
 import React, { useEffect, useState, useRef } from "react"
-import { useCsvDataListStore } from "../../Store"
-import {csvToArr, readUploadedFileAsText} from '../../Utils'
+
 
 const Thumbnail = (props) =>{
     //const index = props.index
@@ -42,9 +41,9 @@ const Thumbnail = (props) =>{
             let move = "translate(" + ypos  + "," + xpos + ") rotate(" + yaw + ", " + imgSize/2 + ", " + imgSize/2 + ")";
             let imagePath = ""
             if(i<2){
-                imagePath = "/img/IconDroneBlue.png"
+                imagePath = "./src/images/img/IconDroneBlue.png"
             }else{
-                imagePath = "/img/IconDroneRed.png"
+                imagePath = "./src/images/img/IconDroneRed.png"
             }
             return (
             <image
@@ -65,7 +64,7 @@ const Thumbnail = (props) =>{
                 width={w*scale} 
                 height={h}
                 style={{ 
-                background: `url(${'/texture/GroundTextureMod.png'})`, 
+                background: `url(${'./src/images/texture/GroundTextureMod.png'})`, 
                 backgroundSize: "100%", 
                 backgroundPosition: "center"}}>
                     {data &&

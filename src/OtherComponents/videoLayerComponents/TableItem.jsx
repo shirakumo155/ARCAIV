@@ -46,7 +46,7 @@ const TableItem = ({ team, index }) => {
 
             <Box display="flex" justifyContent="space-between" alignItems="center" sx={{borderBottom: "1px solid #3B3838"}}>
                 <Box ml={2} flexGrow={1} display="flex" justifyContent="space-evenly" alignItems="center">
-                    <img src={team=="Blue" ? "./img/IconDroneBlue.png" : "./img/IconDroneRed.png"} width="25" height="25" />
+                    <img src={team=="Blue" ? "./src/images/img/IconDroneBlue.png" : "./src/images/img/IconDroneRed.png"} width="25" height="25" />
                     {team=="Blue" ? 
                     <Typography variant="h4" color={"#3399FF"} fontWeight="bold">{name}</Typography>:
                     <Typography variant="h4" color={"#FF007F"} fontWeight="bold">{name}</Typography> }

@@ -52,18 +52,18 @@ const TACcanvas = (props) =>{
                 const droneName = team + "/" + team + (i+1)
                 if(name !== droneName){
                     if(team == props.team){
-                        loadImage('/HUDicons/friend.png', team, droneName, 'friend')
+                        loadImage('./src/images/HUDicons/friend.png', team, droneName, 'friend')
                         for(let j=0; j<numMissiles; j++){
                             const missileName = droneName + ":Missile" + (j+1)
-                            loadImage('/HUDicons/MRMfriend.png', team, missileName, 'friendMRM')
+                            loadImage('./src/images/HUDicons/MRMfriend.png', team, missileName, 'friendMRM')
                         }
                     }else{
-                        loadImage('/HUDicons/target.png', team, droneName, 'enemy')
+                        loadImage('./src/images/HUDicons/target.png', team, droneName, 'enemy')
                     }
                 }else{
                     for(let j=0; j<numMissiles; j++){
                         const missileName = droneName + ":Missile" + (j+1)
-                        loadImage('/HUDicons/MRMown.png', team, missileName, 'ownMRM')
+                        loadImage('./src/images/HUDicons/MRMown.png', team, missileName, 'ownMRM')
                     }
                 }
             }
@@ -71,12 +71,12 @@ const TACcanvas = (props) =>{
 
         // load back ground
         const backgound = new Image();
-        backgound.src = '/HUDicons/RadarMap.png';
+        backgound.src = './src/images/HUDicons/RadarMap.png';
         backgound.onload = () => {backgroundRef.current = backgound}
 
         // load origin icon
         const originIcon = new Image();
-        originIcon.src = '/HUDicons/DroneRadarOrigin.png';
+        originIcon.src = './src/images/HUDicons/DroneRadarOrigin.png';
         originIcon.onload = () => {originIconRef.current = originIcon}
 
 

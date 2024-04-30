@@ -58,38 +58,38 @@ const HUDcanvasSimple = (props) =>{
         for(let i=1; i<=360; i++){
             if(i%5==0){
                 if(i==90){
-                    setHUDobject('/HUDicons/tick_large.png', name, "E", 'headding_large', i)
+                    setHUDobject('./src/images/HUDicons/tick_large.png', name, "E", 'headding_large', i)
                 }else if(i==180){
-                    setHUDobject('/HUDicons/tick_large.png', name, "S", 'headding_large', i)  
+                    setHUDobject('./src/images/HUDicons/tick_large.png', name, "S", 'headding_large', i)  
                 }else if(i==270){
-                    setHUDobject('/HUDicons/tick_large.png', name, "W", 'headding_large', i)  
+                    setHUDobject('./src/images/HUDicons/tick_large.png', name, "W", 'headding_large', i)  
                 }else if(i==360){
-                    setHUDobject('/HUDicons/tick_large.png', name, "N", 'headding_large', i)   
+                    setHUDobject('./src/images/HUDicons/tick_large.png', name, "N", 'headding_large', i)   
                 }else{
-                    setHUDobject('/HUDicons/tick_large.png', name, i.toString(), 'headding_large', i) 
+                    setHUDobject('./src/images/HUDicons/tick_large.png', name, i.toString(), 'headding_large', i) 
                 }
             }else{
-                setHUDobject('/HUDicons/tick_small.png', name, i.toString(), 'headding', i)
+                setHUDobject('./src/images/HUDicons/tick_small.png', name, i.toString(), 'headding', i)
             }
         }
 
         // setPitchLadder
         for(let i=-125; i<126; i=i+5){
             if (i==0){
-                setHUDobject('/HUDicons/pitch_horizon.png', name, (i).toString(), 'pitch_ladder', i)
+                setHUDobject('./src/images/HUDicons/pitch_horizon.png', name, (i).toString(), 'pitch_ladder', i)
             }else if(i<0){
-                setHUDobject('/HUDicons/pitch_negative.png', name, (i).toString(), 'pitch_ladder', i)
+                setHUDobject('./src/images/HUDicons/pitch_negative.png', name, (i).toString(), 'pitch_ladder', i)
             }else{
-                setHUDobject('/HUDicons/pitch_positive.png', name, (i).toString(), 'pitch_ladder', i)
+                setHUDobject('./src/images/HUDicons/pitch_positive.png', name, (i).toString(), 'pitch_ladder', i)
             }
         }
 
         // set BoreSight
-        setHUDobject('/HUDicons/boresight.png', name, "0", 'boresight', 0)
+        setHUDobject('./src/images/HUDicons/boresight.png', name, "0", 'boresight', 0)
         // set IndicatorSpeed
-        setHUDobject('/HUDicons/indicator.png', name, "0", 'indicator', 0)
+        setHUDobject('./src/images/HUDicons/indicator.png', name, "0", 'indicator', 0)
         // set IndicatorAlt
-        setHUDobject('/HUDicons/indicatorAlt.png', name, "0", 'indicatorAlt', 0)
+        setHUDobject('./src/images/HUDicons/indicatorAlt.png', name, "0", 'indicatorAlt', 0)
 
         // This defines an event canvas parent box is resized
         if (!parentRef.current) return;

@@ -27,7 +27,7 @@ const MiniMap = (props) =>{
     // Init
     useEffect(() => {
         const backgound = new Image();
-        backgound.src = '/texture/GroundTextureMiniMap.png';
+        backgound.src = './src/images/texture/GroundTextureMiniMap.png';
         backgound.onload = () => {backgroundRef.current = backgound}
 
 
@@ -54,9 +54,9 @@ const MiniMap = (props) =>{
         const teams = ["Blue", "Red"]
         teams.forEach((teamEl)=>{
             for(let i=0; i<droneNum; i++){
-                setImage('/img/IconDrone'+ teamEl +'.png', i, teamEl, teamEl+(i+1), "Drone")
+                setImage('./src/images/img/IconDrone'+ teamEl +'.png', i, teamEl, teamEl+(i+1), "Drone")
                 for(let j=0; j<missileNums; j++){
-                    setImage('/img/IconMissile'+ teamEl +'.png', j, teamEl, teamEl+(i+1), "MRM")
+                    setImage('./src/images/img/IconMissile'+ teamEl +'.png', j, teamEl, teamEl+(i+1), "MRM")
                 }
             }
         })
