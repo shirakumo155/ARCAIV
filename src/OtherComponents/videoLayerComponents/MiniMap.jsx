@@ -1,7 +1,6 @@
 import { Box } from "@mui/material";
 import React, {useEffect, useRef, useState} from "react"
 import { useCsvDataStore } from "../../Store"
-import img  from '/texture/GroundTextureMiniMap.png';
 
 const MiniMap = (props) =>{
     const w = props.w
