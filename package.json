@@ -1,0 +1,49 @@
+{
+  "name": "r3f-agentvis",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && cp -r dist docs",
+    "rebuild": "vite build && rm -R docs && cp -r dist docs",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "git": "git add . && git commit && git push origin main",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.15.14",
+    "@mui/material": "^5.15.14",
+    "@mui/x-data-grid": "^5.17.2",
+    "@react-three/fiber": "^8.15.19",
+    "@react-three/postprocessing": "^2.16.2",
+    "@types/three": "^0.162.0",
+    "d3": "^7.9.0",
+    "leva": "^0.9.35",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-pro-sidebar": "^0.7.1",
+    "react-resizable": "^3.0.5",
+    "react-router-dom": "^6.22.3",
+    "screenfull": "^6.0.2",
+    "stats.js": "^0.17.0",
+    "three": "^0.162.0",
+    "three.meshline": "^1.4.0",
+    "vite-plugin-svgr": "^4.2.0",
+    "zustand": "^4.5.2"
+  },
+  "devDependencies": {
+    "@react-three/drei": "^9.105.4",
+    "@types/jsdom": "^21.1.6",
+    "@types/react": "^18.2.64",
+    "@types/react-dom": "^18.2.21",
+    "@vitejs/plugin-react": "^4.2.1",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react": "^7.34.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "vite": "^5.1.6"
+  }
+}

@@ -1,0 +1,41 @@
+@font-face {
+  font-family: "Light";   /*Can be any text*/
+  src: url("./fonts/ACES07_Regular.ttf") format("truetype");
+}
+
+html,
+body
+{
+    height: 100%;
+    width: 100%;
+    font-family: "Light";
+    margin: 0;
+    background: #141b2d; 
+    overflow: hidden
+}
+
+.preloader-div {
+    height: 100vh;
+    width: 100%;
+    background: #141b2d;
+    margin: 0;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+  }
+
+.preloader{
+    border: 16px solid #858585;  /* Light grey */
+    border-top: 16px solid #70d8bd; 
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
