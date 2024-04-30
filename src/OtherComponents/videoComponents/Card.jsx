@@ -50,22 +50,22 @@ export default function Card(props) {
                 <Box display="flex" justifyContent="space-evenly" width="100%" alignItems="center">
                     <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-evenly" width="20%" height="100%">
                         <Box display="flex" flexDirection="column" alignItems="center">
-                           <img src={fileArr[index].stats.Red1.isAlive ? "./images/img/IconDroneRed.png" : "./images/img/IconDroneRedEdge.png"} width="40" height="40" />  
+                           <img src={fileArr[index].stats.Red1.isAlive ? "./images/img/IconDroneRed.png" : "../images/img/IconDroneRedEdge.png"} width="40" height="40" />  
                            <Box display="flex">
-                                <img src={fileArr[index].stats.Red1.mrm[0]==1 ? "./images/img/IconMissileRed.png" : "./images/img/IconMissileGray.png"} width="10" height="20" /> 
-                                <img src={fileArr[index].stats.Red1.mrm[1]==1 ? "./images/img/IconMissileRed.png" : "./images/img/IconMissileGray.png"} width="10" height="20" /> 
-                                <img src={fileArr[index].stats.Red1.mrm[2]==1 ? "./images/img/IconMissileRed.png" : "./images/img/IconMissileGray.png"} width="10" height="20" /> 
-                                <img src={fileArr[index].stats.Red1.mrm[3]==1 ? "./images/img/IconMissileRed.png" : "./images/img/IconMissileGray.png"} width="10" height="20" /> 
+                                <img src={fileArr[index].stats.Red1.mrm[0]==1 ? "../images/img/IconMissileRed.png" : "../images/img/IconMissileGray.png"} width="10" height="20" /> 
+                                <img src={fileArr[index].stats.Red1.mrm[1]==1 ? "../images/img/IconMissileRed.png" : "../images/img/IconMissileGray.png"} width="10" height="20" /> 
+                                <img src={fileArr[index].stats.Red1.mrm[2]==1 ? "../images/img/IconMissileRed.png" : "../images/img/IconMissileGray.png"} width="10" height="20" /> 
+                                <img src={fileArr[index].stats.Red1.mrm[3]==1 ? "../images/img/IconMissileRed.png" : "../images/img/IconMissileGray.png"} width="10" height="20" /> 
                            </Box>
                         </Box>
                         
                         <Box display="flex" flexDirection="column" alignItems="center">
-                           <img src={fileArr[index].stats.Red2.isAlive ? "./images/img/IconDroneRed.png" : "./images/img/IconDroneRedEdge.png"} width="40" height="40" />  
+                           <img src={fileArr[index].stats.Red2.isAlive ? "../images/img/IconDroneRed.png" : "../images/img/IconDroneRedEdge.png"} width="40" height="40" />  
                            <Box display="flex">
-                                <img src={fileArr[index].stats.Red2.mrm[0]==1 ? "./images/img/IconMissileRed.png" : "./images/img/IconMissileGray.png"} width="10" height="20" /> 
-                                <img src={fileArr[index].stats.Red2.mrm[1]==1 ? "./images/img/IconMissileRed.png" : "./images/img/IconMissileGray.png"} width="10" height="20" /> 
-                                <img src={fileArr[index].stats.Red2.mrm[2]==1 ? "./images/img/IconMissileRed.png" : "./images/img/IconMissileGray.png"} width="10" height="20" /> 
-                                <img src={fileArr[index].stats.Red2.mrm[3]==1 ? "./images/img/IconMissileRed.png" : "./images/img/IconMissileGray.png"} width="10" height="20" />  
+                                <img src={fileArr[index].stats.Red2.mrm[0]==1 ? "../images/img/IconMissileRed.png" : "../images/img/IconMissileGray.png"} width="10" height="20" /> 
+                                <img src={fileArr[index].stats.Red2.mrm[1]==1 ? "../images/img/IconMissileRed.png" : "../images/img/IconMissileGray.png"} width="10" height="20" /> 
+                                <img src={fileArr[index].stats.Red2.mrm[2]==1 ? "../images/img/IconMissileRed.png" : "../images/img/IconMissileGray.png"} width="10" height="20" /> 
+                                <img src={fileArr[index].stats.Red2.mrm[3]==1 ? "../images/img/IconMissileRed.png" : "../images/img/IconMissileGray.png"} width="10" height="20" />  
                            </Box>
                         </Box>
                     </Box>
@@ -74,21 +74,21 @@ export default function Card(props) {
 
                     <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-evenly" width="20%" height="100%">
                             <Box display="flex" flexDirection="column" alignItems="center">
-                                <img src={fileArr[index].stats.Blue1.isAlive ? "./images/img/IconDroneBlue.png" : "./images/img/IconDroneBlueEdge.png"} width="40" height="40" /> 
+                                <img src={fileArr[index].stats.Blue1.isAlive ? "../images/img/IconDroneBlue.png" : "../images/img/IconDroneBlueEdge.png"} width="40" height="40" /> 
                                 <Box display="flex">
-                                    <img src={fileArr[index].stats.Blue1.mrm[0]==1 ? "./images/img/IconMissileBlue.png" : "./images/img/IconMissileGray.png"} width="10" height="20" /> 
-                                    <img src={fileArr[index].stats.Blue1.mrm[1]==1 ? "./images/img/IconMissileBlue.png" : "./images/img/IconMissileGray.png"} width="10" height="20" /> 
-                                    <img src={fileArr[index].stats.Blue1.mrm[2]==1 ? "./images/img/IconMissileBlue.png" : "./images/img/IconMissileGray.png"} width="10" height="20" /> 
-                                    <img src={fileArr[index].stats.Blue1.mrm[3]==1 ? "./images/img/IconMissileBlue.png" : "./images/img/IconMissileGray.png"} width="10" height="20" /> 
+                                    <img src={fileArr[index].stats.Blue1.mrm[0]==1 ? "../images/img/IconMissileBlue.png" : "../images/img/IconMissileGray.png"} width="10" height="20" /> 
+                                    <img src={fileArr[index].stats.Blue1.mrm[1]==1 ? "../images/img/IconMissileBlue.png" : "../images/img/IconMissileGray.png"} width="10" height="20" /> 
+                                    <img src={fileArr[index].stats.Blue1.mrm[2]==1 ? "../images/img/IconMissileBlue.png" : "../images/img/IconMissileGray.png"} width="10" height="20" /> 
+                                    <img src={fileArr[index].stats.Blue1.mrm[3]==1 ? "../images/img/IconMissileBlue.png" : "../images/img/IconMissileGray.png"} width="10" height="20" /> 
                                 </Box>
                            </Box>
                            <Box display="flex" flexDirection="column" alignItems="center">
-                                <img src={fileArr[index].stats.Blue2.isAlive ? "./images/img/IconDroneBlue.png" : "./images/img/IconDroneBlueEdge.png"} width="40" height="40" /> 
+                                <img src={fileArr[index].stats.Blue2.isAlive ? "../images/img/IconDroneBlue.png" : "../images/img/IconDroneBlueEdge.png"} width="40" height="40" /> 
                                 <Box display="flex">
-                                    <img src={fileArr[index].stats.Blue2.mrm[0]==1 ? "./images/img/IconMissileBlue.png" : "./images/img/IconMissileGray.png"} width="10" height="20" /> 
-                                    <img src={fileArr[index].stats.Blue2.mrm[1]==1 ? "./images/img/IconMissileBlue.png" : "./images/img/IconMissileGray.png"} width="10" height="20" /> 
-                                    <img src={fileArr[index].stats.Blue2.mrm[2]==1 ? "./images/img/IconMissileBlue.png" : "./images/img/IconMissileGray.png"} width="10" height="20" /> 
-                                    <img src={fileArr[index].stats.Blue2.mrm[3]==1 ? "./images/img/IconMissileBlue.png" : "./images/img/IconMissileGray.png"} width="10" height="20" /> 
+                                    <img src={fileArr[index].stats.Blue2.mrm[0]==1 ? "../images/img/IconMissileBlue.png" : "../images/img/IconMissileGray.png"} width="10" height="20" /> 
+                                    <img src={fileArr[index].stats.Blue2.mrm[1]==1 ? "../images/img/IconMissileBlue.png" : "../images/img/IconMissileGray.png"} width="10" height="20" /> 
+                                    <img src={fileArr[index].stats.Blue2.mrm[2]==1 ? "../images/img/IconMissileBlue.png" : "../images/img/IconMissileGray.png"} width="10" height="20" /> 
+                                    <img src={fileArr[index].stats.Blue2.mrm[3]==1 ? "../images/img/IconMissileBlue.png" : "../images/img/IconMissileGray.png"} width="10" height="20" /> 
                                 </Box>
                            </Box>
                     </Box>
