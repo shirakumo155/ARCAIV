@@ -17,6 +17,13 @@ export default function Card(props) {
     const colors = tokens(theme.palette.mode);
     const fileArr = useCsvDataListStore(state => state.fileArr);
     const index = props.index
+    const droneRedAlivePath = import.meta.env.BASE_URL + "img/IconDroneRed.png"
+    const droneRedNotAlivePath = import.meta.env.BASE_URL + "img/IconDroneRedEdge.png"
+    const droneBlueAlivePath = import.meta.env.BASE_URL + "img/IconDroneBlue.png"
+    const droneBlueNotAlivePath = import.meta.env.BASE_URL + "img/IconDroneBlueEdge.png"
+    const mrmRedPath = import.meta.env.BASE_URL + "img/IconMissileRed.png"
+    const mrmBluePath = import.meta.env.BASE_URL + "img/IconMissileBlue.png"
+    const mrmGrayPath = import.meta.env.BASE_URL + "img/IconMissileGray.png"
     
     return (
         <>
@@ -50,22 +57,22 @@ export default function Card(props) {
                 <Box display="flex" justifyContent="space-evenly" width="100%" alignItems="center">
                     <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-evenly" width="20%" height="100%">
                         <Box display="flex" flexDirection="column" alignItems="center">
-                           <img src={fileArr[index].stats.Red1.isAlive ? "./src/images/img/IconDroneRed.png" : "./src/images/img/IconDroneRedEdge.png"} width="40" height="40" />  
+                           <img src={fileArr[index].stats.Red1.isAlive ? droneRedAlivePath : droneRedNotAlivePath} width="40" height="40" />  
                            <Box display="flex">
-                                <img src={fileArr[index].stats.Red1.mrm[0]==1 ? "./src/images/img/IconMissileRed.png" : "./src/images/img/IconMissileGray.png"} width="10" height="20" /> 
-                                <img src={fileArr[index].stats.Red1.mrm[1]==1 ? "./src/images/img/IconMissileRed.png" : "./src/images/img/IconMissileGray.png"} width="10" height="20" /> 
-                                <img src={fileArr[index].stats.Red1.mrm[2]==1 ? "./src/images/img/IconMissileRed.png" : "./src/images/img/IconMissileGray.png"} width="10" height="20" /> 
-                                <img src={fileArr[index].stats.Red1.mrm[3]==1 ? "./src/images/img/IconMissileRed.png" : "./src/images/img/IconMissileGray.png"} width="10" height="20" /> 
+                                <img src={fileArr[index].stats.Red1.mrm[0]==1 ? mrmRedPath : mrmGrayPath} width="10" height="20" /> 
+                                <img src={fileArr[index].stats.Red1.mrm[1]==1 ? mrmRedPath : mrmGrayPath} width="10" height="20" /> 
+                                <img src={fileArr[index].stats.Red1.mrm[2]==1 ? mrmRedPath : mrmGrayPath} width="10" height="20" /> 
+                                <img src={fileArr[index].stats.Red1.mrm[3]==1 ? mrmRedPath : mrmGrayPath} width="10" height="20" /> 
                            </Box>
                         </Box>
                         
                         <Box display="flex" flexDirection="column" alignItems="center">
-                           <img src={fileArr[index].stats.Red2.isAlive ? "./src/images/img/IconDroneRed.png" : "./src/images/img/IconDroneRedEdge.png"} width="40" height="40" />  
+                           <img src={fileArr[index].stats.Red2.isAlive ? droneRedAlivePath : droneRedNotAlivePath} width="40" height="40" />  
                            <Box display="flex">
-                                <img src={fileArr[index].stats.Red2.mrm[0]==1 ? "./src/images/img/IconMissileRed.png" : "./src/images/img/IconMissileGray.png"} width="10" height="20" /> 
-                                <img src={fileArr[index].stats.Red2.mrm[1]==1 ? "./src/images/img/IconMissileRed.png" : "./src/images/img/IconMissileGray.png"} width="10" height="20" /> 
-                                <img src={fileArr[index].stats.Red2.mrm[2]==1 ? "./src/images/img/IconMissileRed.png" : "./src/images/img/IconMissileGray.png"} width="10" height="20" /> 
-                                <img src={fileArr[index].stats.Red2.mrm[3]==1 ? "./src/images/img/IconMissileRed.png" : "./src/images/img/IconMissileGray.png"} width="10" height="20" />  
+                                <img src={fileArr[index].stats.Red2.mrm[0]==1 ? mrmRedPath : mrmGrayPath} width="10" height="20" /> 
+                                <img src={fileArr[index].stats.Red2.mrm[1]==1 ? mrmRedPath : mrmGrayPath} width="10" height="20" /> 
+                                <img src={fileArr[index].stats.Red2.mrm[2]==1 ? mrmRedPath : mrmGrayPath} width="10" height="20" /> 
+                                <img src={fileArr[index].stats.Red2.mrm[3]==1 ? mrmRedPath : mrmGrayPath} width="10" height="20" />  
                            </Box>
                         </Box>
                     </Box>
@@ -74,21 +81,21 @@ export default function Card(props) {
 
                     <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-evenly" width="20%" height="100%">
                             <Box display="flex" flexDirection="column" alignItems="center">
-                                <img src={fileArr[index].stats.Blue1.isAlive ? "./src/images/img/IconDroneBlue.png" : "./src/images/img/IconDroneBlueEdge.png"} width="40" height="40" /> 
+                                <img src={fileArr[index].stats.Blue1.isAlive ? droneBlueAlivePath : droneBlueNotAlivePath} width="40" height="40" /> 
                                 <Box display="flex">
-                                    <img src={fileArr[index].stats.Blue1.mrm[0]==1 ? "./src/images/img/IconMissileBlue.png" : "./src/images/img/IconMissileGray.png"} width="10" height="20" /> 
-                                    <img src={fileArr[index].stats.Blue1.mrm[1]==1 ? "./src/images/img/IconMissileBlue.png" : "./src/images/img/IconMissileGray.png"} width="10" height="20" /> 
-                                    <img src={fileArr[index].stats.Blue1.mrm[2]==1 ? "./src/images/img/IconMissileBlue.png" : "./src/images/img/IconMissileGray.png"} width="10" height="20" /> 
-                                    <img src={fileArr[index].stats.Blue1.mrm[3]==1 ? "./src/images/img/IconMissileBlue.png" : "./src/images/img/IconMissileGray.png"} width="10" height="20" /> 
+                                    <img src={fileArr[index].stats.Blue1.mrm[0]==1 ? mrmBluePath : mrmGrayPath} width="10" height="20" /> 
+                                    <img src={fileArr[index].stats.Blue1.mrm[1]==1 ? mrmBluePath : mrmGrayPath} width="10" height="20" /> 
+                                    <img src={fileArr[index].stats.Blue1.mrm[2]==1 ? mrmBluePath : mrmGrayPath} width="10" height="20" /> 
+                                    <img src={fileArr[index].stats.Blue1.mrm[3]==1 ? mrmBluePath : mrmGrayPath} width="10" height="20" /> 
                                 </Box>
                            </Box>
                            <Box display="flex" flexDirection="column" alignItems="center">
-                                <img src={fileArr[index].stats.Blue2.isAlive ? "./src/images/img/IconDroneBlue.png" : "./src/images/img/IconDroneBlueEdge.png"} width="40" height="40" /> 
+                                <img src={fileArr[index].stats.Blue2.isAlive ? droneBlueAlivePath : droneBlueNotAlivePath} width="40" height="40" /> 
                                 <Box display="flex">
-                                    <img src={fileArr[index].stats.Blue2.mrm[0]==1 ? "./src/images/img/IconMissileBlue.png" : "./src/images/img/IconMissileGray.png"} width="10" height="20" /> 
-                                    <img src={fileArr[index].stats.Blue2.mrm[1]==1 ? "./src/images/img/IconMissileBlue.png" : "./src/images/img/IconMissileGray.png"} width="10" height="20" /> 
-                                    <img src={fileArr[index].stats.Blue2.mrm[2]==1 ? "./src/images/img/IconMissileBlue.png" : "./src/images/img/IconMissileGray.png"} width="10" height="20" /> 
-                                    <img src={fileArr[index].stats.Blue2.mrm[3]==1 ? "./src/images/img/IconMissileBlue.png" : "./src/images/img/IconMissileGray.png"} width="10" height="20" /> 
+                                    <img src={fileArr[index].stats.Blue2.mrm[0]==1 ? mrmBluePath : mrmGrayPath} width="10" height="20" /> 
+                                    <img src={fileArr[index].stats.Blue2.mrm[1]==1 ? mrmBluePath : mrmGrayPath} width="10" height="20" /> 
+                                    <img src={fileArr[index].stats.Blue2.mrm[2]==1 ? mrmBluePath : mrmGrayPath} width="10" height="20" /> 
+                                    <img src={fileArr[index].stats.Blue2.mrm[3]==1 ? mrmBluePath : mrmGrayPath} width="10" height="20" /> 
                                 </Box>
                            </Box>
                     </Box>
@@ -97,7 +104,6 @@ export default function Card(props) {
                 
                 
                 <StatsBar name="Hit" valueB={fileArr[index].stats.HitRatioBlue*100} valueR={fileArr[index].stats.HitRatioRed*100} />
-                <StatsBar name="Avoidance" valueB={40} valueR={60} />
                 
                 <Typography variant="h5" color={colors.grey[100]} mt={1.5}>
                 File Name

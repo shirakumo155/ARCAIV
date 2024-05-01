@@ -8,6 +8,7 @@ export default function TopBar(){
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const colorMode = useContext(ColorModeContext);
+    const logoPath = import.meta.env.BASE_URL + "ATLA.svg";
 
     return (
         <Box display="flex" justifyContent="space-between" backgroundColor={colors.primary[400]}>
@@ -19,7 +20,7 @@ export default function TopBar(){
                         alt="profile-user"
                         width="50px"
                         height="50px"
-                        src={`../images/ATLA.svg`}
+                        src={logoPath}
                         style={{ cursor: "pointer", borderRadius: "50%" }}
                 />
                 </Box>
@@ -32,9 +33,6 @@ export default function TopBar(){
                         sx={{ m: "0 0 0 0" }}
                         >
                             ARCAIV
-                        </Typography>
-                        <Typography variant="h2" color={colors.grey[100]} ml={1}>
-                        by ASRC
                         </Typography>
                     </Box>
                     <Box>

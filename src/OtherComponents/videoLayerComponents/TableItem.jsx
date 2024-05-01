@@ -21,6 +21,8 @@ const TableItem = ({ team, index }) => {
     const [heightval, setheightval] = useState(300)
     const [isOpen, setIsOpen] = useState(true)
     const name = (team + index.toString()).toString()
+    const droneBluePath = import.meta.env.BASE_URL + "img/IconDroneBlue.png"
+    const droneRedPath = import.meta.env.BASE_URL + "img/IconDroneRed.png"
 
     const handleItemClose = (e) => {
         const h = (heightval == 0) ? 300 : 0;
@@ -46,7 +48,7 @@ const TableItem = ({ team, index }) => {
 
             <Box display="flex" justifyContent="space-between" alignItems="center" sx={{borderBottom: "1px solid #3B3838"}}>
                 <Box ml={2} flexGrow={1} display="flex" justifyContent="space-evenly" alignItems="center">
-                    <img src={team=="Blue" ? "./src/images/img/IconDroneBlue.png" : "./src/images/img/IconDroneRed.png"} width="25" height="25" />
+                    <img src={team=="Blue" ? droneBluePath : droneRedPath} width="25" height="25" />
                     {team=="Blue" ? 
                     <Typography variant="h4" color={"#3399FF"} fontWeight="bold">{name}</Typography>:
                     <Typography variant="h4" color={"#FF007F"} fontWeight="bold">{name}</Typography> }

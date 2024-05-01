@@ -22,6 +22,9 @@ const Thumbnail = (props) =>{
     const yScale = d3.scaleLinear()
         .domain([yMin, yMax])
         .range([h, 0])
+    const droneBluePath = import.meta.env.BASE_URL + "img/IconDroneBlue.png"
+    const droneRedPath = import.meta.env.BASE_URL + "img/IconDroneRed.png"
+    const backgroundPath = import.meta.env.BASE_URL + "texture/GroundTextureMod.png"
     
     useEffect(()=>{
         const plotData = [
@@ -41,9 +44,9 @@ const Thumbnail = (props) =>{
             let move = "translate(" + ypos  + "," + xpos + ") rotate(" + yaw + ", " + imgSize/2 + ", " + imgSize/2 + ")";
             let imagePath = ""
             if(i<2){
-                imagePath = "./src/images/img/IconDroneBlue.png"
+                imagePath = droneBluePath
             }else{
-                imagePath = "./src/images/img/IconDroneRed.png"
+                imagePath = droneRedPath
             }
             return (
             <image
@@ -64,7 +67,7 @@ const Thumbnail = (props) =>{
                 width={w*scale} 
                 height={h}
                 style={{ 
-                background: `url(${'./src/images/texture/GroundTextureMod.png'})`, 
+                background: `url(${backgroundPath})`, 
                 backgroundSize: "100%", 
                 backgroundPosition: "center"}}>
                     {data &&

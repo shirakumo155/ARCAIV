@@ -28,6 +28,13 @@ const TACcanvas = (props) =>{
     const dpr = 4
     const numDrones = 2
     const numMissiles = 4
+    const friendIconPath = import.meta.env.BASE_URL + "HUDicons/friend.png"
+    const mrmFriendIconPath = import.meta.env.BASE_URL + "HUDicons/MRMfriend.png"
+    const targetIconPath = import.meta.env.BASE_URL + "HUDicons/target.png"
+    const mrmIconPath = import.meta.env.BASE_URL + "HUDicons/MRMown.png"
+    const backgroundIconPath = import.meta.env.BASE_URL + "HUDicons/RadarMap.png"
+    const originIconPath = import.meta.env.BASE_URL + "HUDicons/DroneRadarOrigin.png"
+    const displayRange = 30
 
     // Init
     useEffect(() => {
@@ -52,18 +59,18 @@ const TACcanvas = (props) =>{
                 const droneName = team + "/" + team + (i+1)
                 if(name !== droneName){
                     if(team == props.team){
-                        loadImage('./src/images/HUDicons/friend.png', team, droneName, 'friend')
+                        loadImage(friendIconPath, team, droneName, 'friend')
                         for(let j=0; j<numMissiles; j++){
                             const missileName = droneName + ":Missile" + (j+1)
-                            loadImage('./src/images/HUDicons/MRMfriend.png', team, missileName, 'friendMRM')
+                            loadImage(mrmFriendIconPath, team, missileName, 'friendMRM')
                         }
                     }else{
-                        loadImage('./src/images/HUDicons/target.png', team, droneName, 'enemy')
+                        loadImage(targetIconPath, team, droneName, 'enemy')
                     }
                 }else{
                     for(let j=0; j<numMissiles; j++){
                         const missileName = droneName + ":Missile" + (j+1)
-                        loadImage('./src/images/HUDicons/MRMown.png', team, missileName, 'ownMRM')
+                        loadImage(mrmIconPath, team, missileName, 'ownMRM')
                     }
                 }
             }
@@ -71,12 +78,12 @@ const TACcanvas = (props) =>{
 
         // load back ground
         const backgound = new Image();
-        backgound.src = './src/images/HUDicons/RadarMap.png';
+        backgound.src = backgroundIconPath;
         backgound.onload = () => {backgroundRef.current = backgound}
 
         // load origin icon
         const originIcon = new Image();
-        originIcon.src = './src/images/HUDicons/DroneRadarOrigin.png';
+        originIcon.src = originIconPath;
         originIcon.onload = () => {originIconRef.current = originIcon}
 
 
@@ -85,7 +92,7 @@ const TACcanvas = (props) =>{
         for(let i=30; i<=360; i=i+30){
             tickArr.push({text: i.toString(), value: i, type: "radius"})
         }
-        for(let i=20; i<=60; i=i+20){
+        for(let i=10; i<=30; i=i+10){
             tickArr.push({text: i.toString(), value: i, type: "range"})
         }
         setTicks(tickArr)
@@ -119,8 +126,8 @@ const TACcanvas = (props) =>{
                     let dr = Math.pow(dx*dx+dy*dy,0.5)/1000 // km
                     let theta = Math.atan2(dx,dy) + yawOrigin + Math.PI
                     let yaw = useCsvDataStore.getState().data[index][obj.name + ".att.yaw[rad]"]
-                    let PosX = windowSize[0]/2 + dr * Math.cos(theta) * 0.539957 * radius/20 // km -> NM
-                    let PosY = windowSize[1]/2 + dr * Math.sin(theta) * 0.539957 * radius/20 // km -> NM
+                    let PosX = windowSize[0]/2 + dr * Math.cos(theta) * 0.539957 * radius/displayRange // km -> NM
+                    let PosY = windowSize[1]/2 + dr * Math.sin(theta) * 0.539957 * radius/displayRange // km -> NM
                     
                     ctx.scale(dpr, dpr);
                     ctx.save(); //saves the state of canvas
@@ -137,8 +144,8 @@ const TACcanvas = (props) =>{
                     let dr = Math.pow(dx*dx+dy*dy,0.5)/1000 // km
                     let theta = Math.atan2(dx,dy) + yawOrigin + Math.PI
                     let yaw = useCsvDataStore.getState().data[index][obj.name + ".att.yaw[rad]"]
-                    let PosX = windowSize[0]/2 + dr * Math.cos(theta) * 0.539957 * radius/20 // km -> NM
-                    let PosY = windowSize[1]/2 + dr * Math.sin(theta) * 0.539957 * radius/20 // km -> NM
+                    let PosX = windowSize[0]/2 + dr * Math.cos(theta) * 0.539957 * radius/displayRange // km -> NM
+                    let PosY = windowSize[1]/2 + dr * Math.sin(theta) * 0.539957 * radius/displayRange // km -> NM
                     
                     ctx.scale(dpr, dpr);
                     ctx.save(); //saves the state of canvas
@@ -157,8 +164,8 @@ const TACcanvas = (props) =>{
                         let drTgt = Math.pow(dxTgt*dxTgt+dyTgt*dyTgt,0.5)/1000 // km
                         let thetaTgt = Math.atan2(dxTgt,dyTgt) + yawOrigin + Math.PI
                         let yawTgt = useCsvDataStore.getState().data[index][target + ".att.yaw[rad]"]
-                        let PosXTgt = windowSize[0]/2 + drTgt * Math.cos(thetaTgt) * 0.539957 * radius/20 // km -> NM
-                        let PosYTgt = windowSize[1]/2 + drTgt * Math.sin(thetaTgt) * 0.539957 * radius/20 // km -> NM
+                        let PosXTgt = windowSize[0]/2 + drTgt * Math.cos(thetaTgt) * 0.539957 * radius/displayRange // km -> NM
+                        let PosYTgt = windowSize[1]/2 + drTgt * Math.sin(thetaTgt) * 0.539957 * radius/displayRange // km -> NM
                         
                         // draw line
                         ctx.lineWidth = 0.5;
@@ -188,8 +195,8 @@ const TACcanvas = (props) =>{
             ctxBK.fillStyle = "white"
             ticks.forEach((el)=>{
                 if(el.type=="radius"){
-                    let x = 15 * Math.sin(el.value*Math.PI/180-yawOrigin) * radius/20 + windowSize[0]/2
-                    let y = 15 * Math.cos(el.value*Math.PI/180-yawOrigin) * radius/20 + windowSize[1]/2
+                    let x = 22 * Math.sin(el.value*Math.PI/180-yawOrigin) * radius/displayRange + windowSize[0]/2
+                    let y = 22 * Math.cos(el.value*Math.PI/180-yawOrigin) * radius/displayRange + windowSize[1]/2
                     ctxBK.save(); //saves the state of canvas
                     ctxBK.textAlign = "center";
                     ctxBK.textBaseline = "middle";
@@ -197,8 +204,8 @@ const TACcanvas = (props) =>{
                     ctxBK.restore(); //restore the state of canvas
                 }else{
                     ctxBK.font = "8px Arial";
-                    let x = (el.value/3+1) * Math.sin(150*Math.PI/180) * radius/20 + windowSize[0]/2
-                    let y = (el.value/3+1) * Math.cos(150*Math.PI/180) * radius/20 + windowSize[1]/2
+                    let x = (el.value+1) * Math.sin(150*Math.PI/180) * radius/displayRange + windowSize[0]/2
+                    let y = (el.value+1) * Math.cos(150*Math.PI/180) * radius/displayRange + windowSize[1]/2
                     ctxBK.save(); //saves the state of canvas
                     ctxBK.textAlign = "center";
                     ctxBK.textBaseline = "middle";
@@ -228,8 +235,8 @@ const TACcanvas = (props) =>{
             ctx.fillStyle = "white"
             ticks.forEach((el)=>{
                 if(el.type=="radius"){
-                    let x = 15 * Math.sin(el.value*Math.PI/180) * radius/20 + windowSize[0]/2
-                    let y = 15 * Math.cos(el.value*Math.PI/180) * radius/20 + windowSize[1]/2
+                    let x = 15 * Math.sin(el.value*Math.PI/180) * radius/displayRange + windowSize[0]/2
+                    let y = 15 * Math.cos(el.value*Math.PI/180) * radius/displayRange + windowSize[1]/2
                     ctx.save(); //saves the state of canvas
                     ctx.textAlign = "center";
                     ctx.textBaseline = "middle";
@@ -237,8 +244,8 @@ const TACcanvas = (props) =>{
                     ctx.restore(); //restore the state of canvas 
                 }else{
                     ctx.font = "8px Arial";
-                    let x = (el.value/3+1) * Math.sin(150*Math.PI/180) * radius/20 + windowSize[0]/2
-                    let y = (el.value/3+1) * Math.cos(150*Math.PI/180) * radius/20 + windowSize[1]/2
+                    let x = (el.value/3+1) * Math.sin(150*Math.PI/180) * radius/displayRange + windowSize[0]/2
+                    let y = (el.value/3+1) * Math.cos(150*Math.PI/180) * radius/displayRange + windowSize[1]/2
                     ctx.save(); //saves the state of canvas
                     ctx.textAlign = "center";
                     ctx.textBaseline = "middle";

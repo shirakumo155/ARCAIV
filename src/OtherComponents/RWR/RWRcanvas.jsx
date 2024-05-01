@@ -20,6 +20,7 @@ const RWRcanvas = (props) =>{
     const canvasRef = useRef()
     const [RWRObjects, setRWRObjects] = useState([])
     const [windowSize, setWindowSize] = useState([])
+    const backgroundIconPath = import.meta.env.BASE_URL + "HUDicons/RWR.png"
 
     useEffect(()=>{
         let RWRobjectsArr = []
@@ -58,7 +59,7 @@ const RWRcanvas = (props) =>{
 
         // load back ground
         const backgound = new Image();
-        backgound.src = './src/images/HUDicons/RWR.png';
+        backgound.src = backgroundIconPath;
         backgound.onload = () => {backgroundRef.current = backgound}
 
         // This defines an event canvas parent box is resized

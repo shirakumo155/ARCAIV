@@ -10,7 +10,8 @@ import { MeshLine, MeshLineMaterial } from 'three.meshline'
 import { MeshLineGeometry } from 'meshline'
 import { getPointsBetweenTgtMRM } from '../Utils';
 extend({ MeshLine, MeshLineMaterial, MeshLineGeometry })
-useGLTF.preload("./src/images/gltf/missile.glb");
+const mrmGLTFPath = import.meta.env.BASE_URL + "gltf/missile.glb"
+useGLTF.preload(mrmGLTFPath);
 const materialTgtLink = new MeshLineMaterial({color: 0xffffff, lineWidth: 0.05, transparent: true, opacity: 0.5, dashArray:0.01, dashOffset: 0, dashRatio: 0.5});
 
 export default function Missile({name}) {
@@ -25,7 +26,7 @@ export default function Missile({name}) {
   const emissiveIntensity = 1.4
 
   useState(()=>{
-    const { nodes, _ } = useGLTF("./src/images/gltf/missile.glb");
+    const { nodes, _ } = useGLTF(mrmGLTFPath);
     const Material = new THREE.MeshStandardMaterial({
       emissiveIntensity: emissiveIntensity, 
       metalness: 0.5, 

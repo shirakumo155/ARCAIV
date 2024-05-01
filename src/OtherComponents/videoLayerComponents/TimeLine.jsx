@@ -82,6 +82,8 @@ const GanttComponent = ({items, bColor, itemHeight, blueColor, redColor}) => {
     const [mrmFired, setMrmFired] = useState([])
     const dataLength = useCsvDataStore.getState().dataLength
     const missiles = ["Missile1", "Missile2", "Missile3", "Missile4"]
+    const mrmImgPathBlue = import.meta.env.BASE_URL + "HUDicons/MissileFiredIconBlue.png"
+    const mrmImgPathRed = import.meta.env.BASE_URL + "HUDicons/MissileFiredIconRed.png"
 
     useEffect(()=>{
         const teams = ["Blue", "Red"]
@@ -158,7 +160,7 @@ const GanttComponent = ({items, bColor, itemHeight, blueColor, redColor}) => {
                                 return(
                                 <Box position="absolute" height={itemHeight*0.5} width={itemHeight*0.5}
                                 sx={{
-                                    backgroundImage: "url('./src/images/HUDicons/MissileFiredIconBlue.png')",
+                                    backgroundImage: `url(${mrmImgPathBlue})`,
                                     backgroundRepeat: "no-repeat",
                                     backgroundSize: "contain",
                                     left: (mrmFired[item.name+":"+el]/(droneLifeSpan[item.name]/100)).toString()+"%"
@@ -181,7 +183,7 @@ const GanttComponent = ({items, bColor, itemHeight, blueColor, redColor}) => {
                                 return(
                                 <Box position="absolute" height={itemHeight*0.5} width={itemHeight*0.5}
                                 sx={{
-                                    backgroundImage: "url('./src/images/HUDicons/MissileFiredIconRed.png')",
+                                    backgroundImage: `url(${mrmImgPathRed})`,
                                     backgroundRepeat: "no-repeat",
                                     backgroundSize: "contain",
                                     left: (mrmFired[item.name+":"+el]/(droneLifeSpan[item.name]/100)).toString()+"%"
@@ -256,6 +258,7 @@ const TimeControlSliderThumb = ({}) => {
     const canvasRef = useRef(null);
     const parentRef = useRef(null);
     const [windowSize, setWindowSize] = useState([])
+    const thumbImgPath = import.meta.env.BASE_URL + "img/TimeControlThumb.png"
   
     const draw = () => {
         const ctx = canvasRef?.current?.getContext("2d");
@@ -269,7 +272,7 @@ const TimeControlSliderThumb = ({}) => {
 
     useEffect(() => {
         const thumb = new Image();
-        thumb.src = './src/images/img/TimeControlThumb.png';
+        thumb.src = thumbImgPath;
         thumb.onload = () => {
             thumbRef.current = thumb;
         draw();

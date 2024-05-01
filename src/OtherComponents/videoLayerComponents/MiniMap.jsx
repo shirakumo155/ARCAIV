@@ -23,11 +23,14 @@ const MiniMap = (props) =>{
     const mrmSize = 8
     const dpr = 2
     const dprBackGround = 2
+    const backgroundPath = import.meta.env.BASE_URL + "texture/GroundTextureMiniMap.png"
+    const dronePath = import.meta.env.BASE_URL + "img/IconDrone"
+    const mrmPath = import.meta.env.BASE_URL + "img/IconMissile"
 
     // Init
     useEffect(() => {
         const backgound = new Image();
-        backgound.src = './src/images/texture/GroundTextureMiniMap.png';
+        backgound.src = backgroundPath;
         backgound.onload = () => {backgroundRef.current = backgound}
 
 
@@ -54,9 +57,9 @@ const MiniMap = (props) =>{
         const teams = ["Blue", "Red"]
         teams.forEach((teamEl)=>{
             for(let i=0; i<droneNum; i++){
-                setImage('./src/images/img/IconDrone'+ teamEl +'.png', i, teamEl, teamEl+(i+1), "Drone")
+                setImage(dronePath+ teamEl +'.png', i, teamEl, teamEl+(i+1), "Drone")
                 for(let j=0; j<missileNums; j++){
-                    setImage('./src/images/img/IconMissile'+ teamEl +'.png', j, teamEl, teamEl+(i+1), "MRM")
+                    setImage(mrmPath+ teamEl +'.png', j, teamEl, teamEl+(i+1), "MRM")
                 }
             }
         })

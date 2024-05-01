@@ -21,17 +21,19 @@ const Storecanvas = (props) =>{
     const [windowSize, setWindowSize] = useState([])
     const mrmImgSize = [12, 25]
     const mrmImgPos = [[-4,-6],[4,-6],[-10,-1],[10,-1]]
+    const backgroundIconPath = import.meta.env.BASE_URL + "HUDicons/DroneDetail.png"
+    const mrmIconPath = import.meta.env.BASE_URL + "HUDicons/MRM.png"
 
     useEffect(()=>{
 
         // load mrm image
         const mrm = new Image();
-        mrm.src = './src/images/HUDicons/MRM.png';
+        mrm.src = mrmIconPath;
         mrm.onload = () => {mrmRef.current = mrm}
   
         // load back ground
         const backgound = new Image();
-        backgound.src = './src/images/HUDicons/DroneDetail.png';
+        backgound.src = backgroundIconPath;
         backgound.onload = () => {backgroundRef.current = backgound}
 
         // This defines an event canvas parent box is resized

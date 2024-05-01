@@ -13,6 +13,7 @@ const redColor = new THREE.Color(0xef4136)
 const redColorEmission = new THREE.Color(0xFF007F)
 const blueColor = new THREE.Color(0x1598d5)
 const blueColorEmission = new THREE.Color(0x3399FF)
+const droneGLTFPath = import.meta.env.BASE_URL + "gltf/drone.glb"
     
 ///////////////////////////////// Drone //////////////////////////////////
 export default function Drone({name}) {
@@ -28,8 +29,9 @@ export default function Drone({name}) {
     const cameraView = useCsvDataStore(state => state.camera);
     const dataLength = useCsvDataStore.getState().dataLength
     
+    
     useEffect(() => {
-        const { nodes, _ } = useGLTF("./src/images/gltf/drone.glb");
+        const { nodes, _ } = useGLTF(droneGLTFPath);
         const Material = new THREE.MeshStandardMaterial({
             transparent: true, 
             opacity: 0.85 }); 
@@ -138,4 +140,4 @@ export default function Drone({name}) {
 }
 
 
-useGLTF.preload("./src/images/gltf/drone.glb");
+useGLTF.preload(droneGLTFPath);
