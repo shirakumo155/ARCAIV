@@ -106,7 +106,7 @@ const VideoView = (props)=>{
                     <Bloom kernelSize={KernelSize.HUGE} luminanceThreshold={0} luminanceSmoothing={0.4} intensity={1} />
                 </EffectComposer>
                 }
-                <Stats />
+                {/*<Stats />*/}
             </Canvas>
         }
         {
