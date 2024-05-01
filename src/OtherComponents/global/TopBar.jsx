@@ -1,7 +1,6 @@
 import { useContext } from "react"
 import { ColorModeContext, tokens } from "../../theme";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 
@@ -20,7 +19,7 @@ export default function TopBar(){
                         alt="profile-user"
                         width="50px"
                         height="50px"
-                        src={`./src/images/ATLA.svg`}
+                        src={`../images/ATLA.svg`}
                         style={{ cursor: "pointer", borderRadius: "50%" }}
                 />
                 </Box>
