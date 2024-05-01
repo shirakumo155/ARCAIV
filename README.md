@@ -2,7 +2,7 @@
 
 <br>
 <div align="center">
-<img src="./readme_images/cover.png" width="100%">
+<img src="./readme_images/Cover.png" width="100%">
 <br>
 A Video View of Air Combat AI Visualizer
 </div>
