@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="./assets/ATLA-CSa9_jMm.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ASRC Agent Visualizer</title>
+    <script type="module" crossorigin src="./assets/index-Dbiq9I1l.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-DAf79W8_.css">
+  </head>
+  <body>
+    <div id="preloader-div" class="preloader-div"><div id="preloader" class="preloader"></div></div>
+    <div id="root"></div>
+  </body>
+  <script>
+    //after window is loaded completely 
+    window.onload = function(){
+        //hide the preloader
+        setTimeout( function(){ hideLoader(); },2500)
+    }
+    let hideLoader = function(){document.querySelector(".preloader-div").style.display = "none"};
+  </script>
+</html>
