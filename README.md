@@ -40,7 +40,7 @@ BasicLogger により出力されたログファイルを分析するツール�
 </div>
 </div>
 
-## Video View
+## 3. Video View
 
 複数ログファイルの包括的な分析を支援します。
 
