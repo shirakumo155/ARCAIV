@@ -11,6 +11,7 @@ import AgentPerformance from "./OtherComponents/AgentPerformance.jsx"
 import BattleStats from "./OtherComponents/BattleStats"
 import Videos from "./OtherComponents/Videos.jsx"
 import ImportData from "./OtherComponents/ImportData"
+import ExportData from "./OtherComponents/ExportData"
 
 export default function App() {
   const [theme, colorMode] = useMode();
@@ -33,6 +34,7 @@ export default function App() {
               <Route path="/battlestats" element={<BattleStats />} />
               <Route path="/videos" element={<Videos />} />
               <Route path="/import" element={<ImportData />} />
+              <Route path="/export" element={<ExportData />} />
             </Routes>
           </div>
         </div>

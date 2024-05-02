@@ -55,87 +55,52 @@ function LinearProgressWithLabel(props) {
     );
   }
 
-const ImportData = () =>{
+const ExportData = () =>{
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const [files, setFile] = useState()
-    const [tableData, setTableData] = useState()
     const [selectedData, setSelectedData] = useState()
-    const setFileArr = useCsvDataListStore((state)=>(state.setFileArr))
-    const resetFileArr = useCsvDataListStore((state)=>(state.resetFileArr))
     const [progress, setProgress] = useState(0)
     const [isLoading, setIsLoading] = useState(false)
+    const fileArr = useCsvDataListStore(state => state.fileArr);
 
-    function handleFileSelect(event) {
-        setFile(event.target.files)   
-    }
-
-    const handleImport = async (e) => {
+    const handleExport = async (e) => {
         setProgress(0)
         setIsLoading(true)
 
         const importedData = selectedData.map((item, i)=>{
-            return files[item-1]
+            return fileArr[item-1]
         })
         
-        // reset
-        resetFileArr()
 
-        let importedDataWithStats =[]
+        let exportedDataWithStats =[]
         let dataLength = importedData.length
         
+        // do some calc for exporting MongoDB
+        /*
         const promises = importedData.map(
             (item) => analyzeFiles(item)
             .then((val) => {
-                importedDataWithStats.push(val)
+                exportedDataWithStats.push(val)
                 setProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 1/dataLength*100 ));
             }))
         await Promise.all(promises)
+        */
         
 
-        // set
-        setFileArr(importedDataWithStats)
+        // post data to MongoDB
+
         setProgress(100)
         setTimeout(() => {
             setIsLoading(false)
           }, "1200");
-        //console.log(importedDataWithStats)
+        //console.log(exportedDataWithStats)
     }
 
-    useEffect(() => {
-        //console.log(files)
-        if(files){
-            for (let i=0; i < files.length; i++) {
-                files[i].id = i+1;
-                //console.log(files[i].name.split("_")[2])
-                files[i].nameB = files[i].name.split("_")[0];
-                files[i].nameR = files[i].name.split("_")[2];
-            }
-            setTableData(Array.from(files))
-        }
-        //console.log(new Date(1707958238983).getDate())
-    },[files])
     
     return(
         <Box pl={4} pr={4} pb={0} height="100%" display="flex" flexDirection="column" justifyContent="space-between" alignItems="center" position= "relative">
             <Box width="100%" display="flex" justifyContent="space-between" alignItems="center">
-                <Header title='IMPORT LOGS' subtitle="Select a directory including log files & Import them" />
-                <Box>
-                    <form>
-                        <Button variant="contained" component="label" 
-                        sx={{backgroundColor: colors.blueAccent[700],
-                            color: colors.grey[100], 
-                            fontSize: "14px",
-                            fontWeight: "bold",
-                            padding: "10px 20px",
-                             '&:hover': {
-                                backgroundColor: colors.blueAccent[600],
-                            }}}>
-                            Select Folder
-                        <input type="file" id="filepicker" name="fileList" webkitdirectory="true" multiple onChange={handleFileSelect} hidden/>
-                        </Button>
-                    </form> 
-                </Box>
+                <Header title='EXPORT LOGS' subtitle="Select log files to Export to Data Base" />
             </Box>
             
             <Box
@@ -174,10 +139,10 @@ const ImportData = () =>{
                 },
             }}
             >
-            { tableData &&
+            { fileArr &&
                 <DataGrid
                 checkboxSelection
-                rows={tableData}
+                rows={fileArr}
                 columns={columns}
                 components={{Toolbar: GridToolbar}}
                 onSelectionModelChange={(newSelectionData) => {
@@ -199,7 +164,7 @@ const ImportData = () =>{
             }
             
             <Box width="100%" pt={2} pb={2} display="flex" justifyContent="right" alignItems="center" >
-                <Button variant="contained" component="label" onClick={handleImport} disabled={(!selectedData || selectedData?.length==0) ? true : false}
+                <Button variant="contained" component="label" onClick={handleExport}
                 sx={{backgroundColor: colors.blueAccent[700],
                     color: colors.grey[100], 
                     fontSize: "14px",
@@ -208,7 +173,7 @@ const ImportData = () =>{
                     '&:hover': {
                         backgroundColor: colors.blueAccent[600],
                     }}}>
-                    Import
+                    Export
                 </Button>
             </Box>
         </Box>
@@ -216,4 +181,4 @@ const ImportData = () =>{
     )
 }
 
-export default ImportData
+export default ExportData

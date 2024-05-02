@@ -158,7 +158,7 @@ const SideBar = () =>{
                 />
                 <Item
                   title="Export Database"
-                  to="/import"
+                  to="/export"
                   icon={<StorageIcon />}
                   selected={selected}
                   setSelected={setSelected}
