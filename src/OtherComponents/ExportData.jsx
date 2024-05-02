@@ -25,7 +25,7 @@ async function analyzeFiles(file) {
     return new Promise(resolve => {
         resolve(file)
     })
-}
+} 
 
 LinearProgressWithLabel.propTypes = {
     /**
