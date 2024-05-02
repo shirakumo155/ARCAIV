@@ -10,9 +10,11 @@ import PropTypes from 'prop-types';
 
 const columns = [
     { field: 'id', headerName: 'ID'},
-    { field: 'name', headerName: 'File Name' , flex: 2, cellClassName: "name-column--cell"},
-    { field: 'size', headerName: 'File Size' },
-    { field: 'lastModified', headerName: 'Modified Date', flex: 1 }
+    { field: 'name', headerName: 'File Name' , flex: 1, cellClassName: "name-column--cell"},
+    { field: 'nameB', headerName: 'Blue Agent Name' },
+    { field: 'nameR', headerName: 'Red Agent Name' },
+    { field: 'sizeInMB', headerName: 'File Size' },
+    { field: 'date', headerName: 'Modified Date', flex: 1 }
   ]
 
 async function analyzeFiles(file) {
@@ -100,7 +102,7 @@ const ExportData = () =>{
     return(
         <Box pl={4} pr={4} pb={0} height="100%" display="flex" flexDirection="column" justifyContent="space-between" alignItems="center" position= "relative">
             <Box width="100%" display="flex" justifyContent="space-between" alignItems="center">
-                <Header title='EXPORT LOGS' subtitle="Select log files to Export to Data Base" />
+                <Header title='EXPORT LOGS' subtitle="Under Construction (Select log files to Export to Data Base)" />
             </Box>
             
             <Box
@@ -164,7 +166,7 @@ const ExportData = () =>{
             }
             
             <Box width="100%" pt={2} pb={2} display="flex" justifyContent="right" alignItems="center" >
-                <Button variant="contained" component="label" onClick={handleExport}
+                <Button variant="contained" component="label" onClick={handleExport} disabled={true}
                 sx={{backgroundColor: colors.blueAccent[700],
                     color: colors.grey[100], 
                     fontSize: "14px",

@@ -10,9 +10,11 @@ import PropTypes from 'prop-types';
 
 const columns = [
     { field: 'id', headerName: 'ID'},
-    { field: 'name', headerName: 'File Name' , flex: 2, cellClassName: "name-column--cell"},
-    { field: 'size', headerName: 'File Size' },
-    { field: 'lastModified', headerName: 'Modified Date', flex: 1 }
+    { field: 'name', headerName: 'File Name' , flex: 1, cellClassName: "name-column--cell"},
+    { field: 'nameB', headerName: 'Blue Agent Name' },
+    { field: 'nameR', headerName: 'Red Agent Name' },
+    { field: 'sizeInMB', headerName: 'File Size' },
+    { field: 'date', headerName: 'Modified Date', flex: 1 }
   ]
 
 async function analyzeFiles(file) {
@@ -110,8 +112,12 @@ const ImportData = () =>{
                 //console.log(files[i].name.split("_")[2])
                 files[i].nameB = files[i].name.split("_")[0];
                 files[i].nameR = files[i].name.split("_")[2];
+                files[i].date = new Date(files[i].lastModified).toLocaleDateString(undefined, {year: "numeric",month: "2-digit",
+                day: "2-digit"}) + " " + new Date(files[i].lastModified).toLocaleTimeString();
+                files[i].sizeInMB = (files[i].size / (1024*1024)).toFixed(1) + " MB";
             }
             setTableData(Array.from(files))
+            console.log(tableData)
         }
         //console.log(new Date(1707958238983).getDate())
     },[files])
