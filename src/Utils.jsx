@@ -144,13 +144,12 @@ export function TimeFormat(duration) {
   }
 
 
-export function getBattleStats(data){
+export function getBattleStats(data, file){
     const dT = 0.05
     const numMRM = 4
     const result = {Blue1:{}, Blue2:{}, Red1:{}, Red2:{}};
     const Drones = ["Blue1","Blue2","Red1","Red2"]
     let eventLog = [] // ex. "XX:XX Blue1 fired Missile1", "XX:XX Blue1 missed Missile1", 
-    
 
     Drones.forEach((d, di) => {
         let penalty = 0
@@ -267,7 +266,8 @@ export function getBattleStats(data){
                 }
             }
             result[DroneName].isKilled = isKilled
-
+            
+            
             // initPos
             if(i==0){
                 initPos[0]=data[i][TeamName + "/" + DroneName + ".pos.x[m]"]/1000
@@ -282,7 +282,50 @@ export function getBattleStats(data){
             scoreHist.push(score)
         })
         result[DroneName].scoreHist = scoreHist
+        if(TeamName =="Blue"){
+            result[DroneName].agentName = file.nameB 
+        }else{
+            result[DroneName].agentName = file.nameR 
+        }
 
+        // shoot distribution
+        let targetPosData = []
+        result[DroneName].fireIndex.forEach((el, i)=>{
+            if(el>0){
+                const target = data[el][TeamName + "/" + DroneName + ":Missile" + (i+1).toString() + ".target.truth"]
+                let x = (data[el][target + ".pos.x[m]"] - data[el][TeamName + "/" + DroneName + ".pos.x[m]"])/1000
+                let y = (data[el][target + ".pos.y[m]"] - data[el][TeamName + "/" + DroneName + ".pos.y[m]"])/1000
+                let z = (data[el][target + ".pos.z[m]"] - data[el][TeamName + "/" + DroneName + ".pos.z[m]"])/1000
+                let roll = data[el][TeamName + "/" + DroneName + ".att.roll[rad]"]
+                let pitch = data[el][TeamName + "/" + DroneName + ".att.pitch[rad]"]
+                let yaw = data[el][TeamName + "/" + DroneName + ".att.yaw[rad]"]
+
+                const x_local = Math.cos(pitch)*Math.cos(yaw)*x + Math.cos(pitch)*Math.sin(yaw)*y - Math.sin(pitch)*z
+                const y_local = (Math.sin(roll)*Math.sin(pitch)*Math.cos(yaw) - Math.cos(roll)*Math.sin(yaw))*x 
+                            + (Math.sin(roll)*Math.sin(pitch)*Math.sin(yaw) + Math.cos(roll)*Math.cos(yaw))*y 
+                            + Math.sin(roll)*Math.cos(pitch)*z
+                const z_local = (Math.cos(roll)*Math.sin(pitch)*Math.cos(yaw) + Math.sin(roll)*Math.sin(yaw))*x 
+                    + (Math.cos(roll)*Math.sin(pitch)*Math.sin(yaw) - Math.sin(roll)*Math.cos(yaw))*y 
+                    + Math.cos(roll)*Math.cos(pitch)*z
+
+                targetPosData.push({pos: [x_local, y_local, z_local], isHit: (result[DroneName].Hit[i]!=='') ? true : false})
+            }
+        })
+        result[DroneName].shootData = targetPosData
+
+        // vulnerability distribution
+        targetPosData = []
+        result[DroneName].fireIndex.forEach((el, i)=>{
+            if(el>0){
+                const target = data[el][TeamName + "/" + DroneName + ":Missile" + (i+1).toString() + ".target.truth"]
+                let x = (data[el][TeamName + "/" + DroneName + ".pos.x[m]"] - data[el][target + ".pos.x[m]"])/1000
+                let y = (data[el][TeamName + "/" + DroneName + ".pos.y[m]"] - data[el][target + ".pos.y[m]"])/1000
+                let z = (data[el][TeamName + "/" + DroneName + ".pos.z[m]"] - data[el][target + ".pos.z[m]"])/1000
+
+                targetPosData.push({pos: [x, y, z], isHit: (result[DroneName].Hit[i]!=='') ? true : false})
+            }
+        })
+        result[DroneName].vulnerabilityData = targetPosData
  
     })
     result.scoreBlue = result.Blue1.scoreHist[result.Blue1.scoreHist.length - 1] + result.Blue2.scoreHist[result.Blue2.scoreHist.length - 1]
@@ -290,6 +333,7 @@ export function getBattleStats(data){
 
     result.eventLog = eventLog
     result.missionTime = TimeFormat(+data[data.length -1]["Time[s]"])
+    result.missionTimeSec = +data[data.length -1]["Time[s]"]
 
     // Event log at end 
     if(result.scoreBlue>result.scoreRed){

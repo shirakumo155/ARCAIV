@@ -20,7 +20,7 @@ const columns = [
 async function analyzeFiles(file) {
     const fileContents = await readUploadedFileAsText(file) 
     const data= csvToArr(fileContents, ",")
-    const battleStats = getBattleStats(data)
+    const battleStats = getBattleStats(data, file)
     file.stats = battleStats
     return new Promise(resolve => {
         resolve(file)
@@ -117,7 +117,6 @@ const ImportData = () =>{
                 files[i].sizeInMB = (files[i].size / (1024*1024)).toFixed(1) + " MB";
             }
             setTableData(Array.from(files))
-            console.log(tableData)
         }
         //console.log(new Date(1707958238983).getDate())
     },[files])
