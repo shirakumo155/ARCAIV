@@ -17,13 +17,32 @@ export default function Card(props) {
     const colors = tokens(theme.palette.mode);
     const fileArr = useCsvDataListStore(state => state.fileArr);
     const index = props.index
-    const droneRedAlivePath = import.meta.env.BASE_URL + "img/IconDroneRed.png"
-    const droneRedNotAlivePath = import.meta.env.BASE_URL + "img/IconDroneRedEdge.png"
-    const droneBlueAlivePath = import.meta.env.BASE_URL + "img/IconDroneBlue.png"
-    const droneBlueNotAlivePath = import.meta.env.BASE_URL + "img/IconDroneBlueEdge.png"
-    const mrmRedPath = import.meta.env.BASE_URL + "img/IconMissileRed.png"
-    const mrmBluePath = import.meta.env.BASE_URL + "img/IconMissileBlue.png"
+    const [droneRedAlivePath, setDroneRedAlivePath] = useState(import.meta.env.BASE_URL + "img/IconDroneRed.png")
+    const [droneRedNotAlivePath, setRedNotAlivePath] = useState(import.meta.env.BASE_URL + "img/IconDroneRedEdge.png")
+    const [droneBlueAlivePath, setDroneBlueAlivePath] = useState(import.meta.env.BASE_URL + "img/IconDroneBlue.png")
+    const [droneBlueNotAlivePath, setDroneBlueNotAlivePath] = useState(import.meta.env.BASE_URL + "img/IconDroneBlueEdge.png")
+    const [mrmRedPath, setMrmRedPath] = useState(import.meta.env.BASE_URL + "img/IconMissileRed.png")
+    const [mrmBluePath, setMrmBluePath]  = useState(import.meta.env.BASE_URL + "img/IconMissileBlue.png")
     const mrmGrayPath = import.meta.env.BASE_URL + "img/IconMissileGray.png"
+
+    useEffect(()=>{
+        if(theme.palette.mode=="light"){
+            setDroneRedAlivePath(import.meta.env.BASE_URL + "img/IconDroneRedLight.png")
+            setDroneBlueAlivePath(import.meta.env.BASE_URL + "img/IconDroneBlueLight.png")
+            setMrmRedPath(import.meta.env.BASE_URL + "img/IconMissileRedLight.png")
+            setMrmBluePath(import.meta.env.BASE_URL + "img/IconMissileBlueLight.png")
+            setRedNotAlivePath(import.meta.env.BASE_URL + "img/IconDroneRedEdgeLight.png")
+            setDroneBlueNotAlivePath(import.meta.env.BASE_URL + "img/IconDroneBlueEdgeLight.png")
+        }else{
+            setDroneRedAlivePath(import.meta.env.BASE_URL + "img/IconDroneRed.png")
+            setDroneBlueAlivePath(import.meta.env.BASE_URL + "img/IconDroneBlue.png")
+            setMrmRedPath(import.meta.env.BASE_URL + "img/IconMissileRed.png")
+            setMrmBluePath(import.meta.env.BASE_URL + "img/IconMissileBlue.png")
+            setRedNotAlivePath(import.meta.env.BASE_URL + "img/IconDroneRedEdge.png")
+            setDroneBlueNotAlivePath(import.meta.env.BASE_URL + "img/IconDroneBlueEdge.png")
+            
+        }
+    },[theme])
     
     return (
         <>

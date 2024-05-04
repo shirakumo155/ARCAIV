@@ -18,18 +18,18 @@ export default function HorizontalBar(props) {
         return <LinearProgress variant="determinate" value={progress} 
         sx={{
           boxShadow: 3,
-          transform: "rotate(180deg)",
-          backgroundColor: colors.grey[100],
+          backgroundColor: colors.grey[700],
           '& .MuiLinearProgress-bar': {
-          backgroundColor: '#3399FF'
+          backgroundColor: colors.BlueAsset
         }}}/>
     } else {
         return <LinearProgress variant="determinate" value={progress} 
         sx={{
           boxShadow: 3,
-          backgroundColor: colors.grey[100],
+          backgroundColor: colors.grey[700],
+          transform: "rotate(180deg)",
           '& .MuiLinearProgress-bar': {
-          backgroundColor: '#FF007F'
+          backgroundColor: colors.RedAsset
        }}}/>
     }
 }

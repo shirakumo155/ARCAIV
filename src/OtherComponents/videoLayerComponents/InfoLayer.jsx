@@ -22,7 +22,7 @@ const InfoLayer = ({ title, subtitle }) => {
   return (
     <Box position="absolute" top={0} bottom={0} left ={0} right={0} 
       sx={{pointerEvents: "none",
-      background: "linear-gradient(270deg, rgba(16,32,96,0.35), rgba(16,16,32,0.35) 36%, rgba(16,16,32,0.08) 40%, rgba(16,16,32,0.08) 60%, rgba(244,0,0,0.08) 80%, rgba(244,0,0,0.15) 100%)"}}>
+      background: (theme.palette.mode=="dark") ? "linear-gradient(270deg, rgba(16,32,96,0.35), rgba(16,16,32,0.35) 36%, rgba(16,16,32,0.08) 40%, rgba(16,16,32,0.08) 60%, rgba(244,0,0,0.08) 80%, rgba(244,0,0,0.15) 100%)" : ""}}>
       <Box display="flex" justifyContent="center" flexDirection="column" p={1}>
       {eventLogFiltered.map((el,i)=>{
           return (

@@ -543,7 +543,6 @@ export default function Resizable({ direction, children }){
       height: Infinity,
       resizeHandles: ["e"],
       onResizeStop: (event, data) => {
-        console.log(data);
         setWidth(data.size.width);
       }
     };
@@ -556,7 +555,6 @@ export default function Resizable({ direction, children }){
       height: 300,
       resizeHandles: ["n"],
       onResizeStop: (event, data) => {
-        console.log(data);
         setHeight(data.size.height);
       }
     };

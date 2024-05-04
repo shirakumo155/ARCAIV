@@ -21,8 +21,9 @@ const TableItem = ({ team, index }) => {
     const [heightval, setheightval] = useState(300)
     const [isOpen, setIsOpen] = useState(true)
     const name = (team + index.toString()).toString()
-    const droneBluePath = import.meta.env.BASE_URL + "img/IconDroneBlue.png"
-    const droneRedPath = import.meta.env.BASE_URL + "img/IconDroneRed.png"
+    const [imgPath, setImgPath] = useState(import.meta.env.BASE_URL + "img/IconDroneBlue.png")
+    const [fontColor, setFontColor] = useState()
+    const [canvasColor, setCanvasColor] = useState()
 
     const handleItemClose = (e) => {
         const h = (heightval == 0) ? 300 : 0;
@@ -36,23 +37,40 @@ const TableItem = ({ team, index }) => {
         index = Math.min(Math.max(index, 0), dataLength-1);
         if(team=="Blue"){
             refScore.current.textContent = file.stats[name].scoreHist[index].toFixed(2).toString()
-            refScore.current.style.color = "#3399FF"
         }else{
             refScore.current.textContent = file.stats[name].scoreHist[index].toFixed(2).toString()
-            refScore.current.style.color = "#FF007F"
         }
     },[time])
+
+    useEffect(()=>{
+        team=="Blue" ? setFontColor(colors.BlueFont) : setFontColor(colors.RedFont)
+        theme.palette.mode=="light" ? setCanvasColor("#0E0F19") : setCanvasColor(null)
+
+        if(theme.palette.mode=="light"){
+            if(team=="Blue"){
+                setImgPath(import.meta.env.BASE_URL + "img/IconDroneBlueLight.png")
+            }else{
+                setImgPath(import.meta.env.BASE_URL + "img/IconDroneRedLight.png")
+            }
+        }else{
+            if(team=="Blue"){
+                setImgPath(import.meta.env.BASE_URL + "img/IconDroneBlue.png")
+            }else{
+                setImgPath(import.meta.env.BASE_URL + "img/IconDroneRed.png")
+            }
+        }
+    },[theme])
 
     return (
         <Box width={"100%"} sx={{borderTop: "1px solid #3B3838", borderBottom: "1px solid #3B3838"}}>
 
             <Box display="flex" justifyContent="space-between" alignItems="center" sx={{borderBottom: "1px solid #3B3838"}}>
                 <Box ml={2} flexGrow={1} display="flex" justifyContent="space-evenly" alignItems="center">
-                    <img src={team=="Blue" ? droneBluePath : droneRedPath} width="25" height="25" />
+                    <img src={imgPath} width="25" height="25" />
                     {team=="Blue" ? 
-                    <Typography variant="h4" color={"#3399FF"} fontWeight="bold">{name}</Typography>:
-                    <Typography variant="h4" color={"#FF007F"} fontWeight="bold">{name}</Typography> }
-                    <Typography variant="h4" fontWeight="bold" ref={refScore}></Typography>
+                    <Typography variant="h4" color={fontColor} fontWeight="bold">{name}</Typography>:
+                    <Typography variant="h4" color={fontColor} fontWeight="bold">{name}</Typography> }
+                    <Typography variant="h4" fontWeight="bold" color={fontColor} ref={refScore}></Typography>
                 </Box>
                 <Box display="flex">
                         <IconButton className='video_icon' aria-label='reqind'>
@@ -66,7 +84,7 @@ const TableItem = ({ team, index }) => {
 
             
             <Box height={heightval} p={heightval==0 ? 0 : 1} visibility={heightval!==300 ? "hidden" : "visible"} sx={{transition: "height 0.5s"}} >
-                <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" sx={{pointerEvents: "none"}}>
+                <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" sx={{pointerEvents: "none", background: canvasColor}}>
                     <isOpenContext.Provider value={isOpen}>
                     <TACcanvas w={180} h={180} team={team} name={name} bkColor="rgba(0,0,0,0.6)"/>
 

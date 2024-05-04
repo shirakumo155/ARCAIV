@@ -11,8 +11,10 @@ import { lerp } from "three/src/math/MathUtils";
 
 const redColor = new THREE.Color(0xef4136)
 const redColorEmission = new THREE.Color(0xFF007F)
+const redColorEmissionLight = new THREE.Color(0xD30208)
 const blueColor = new THREE.Color(0x1598d5)
 const blueColorEmission = new THREE.Color(0x3399FF)
+const blueColorEmissionLight = new THREE.Color(0x015386)
 const droneGLTFPath = import.meta.env.BASE_URL + "gltf/drone.glb"
     
 ///////////////////////////////// Drone //////////////////////////////////
@@ -37,16 +39,17 @@ export default function Drone({name}) {
             opacity: 0.85 }); 
         if (name.slice(0,1) == 'B'){
             Material.color = blueColor;
-            Material.emissive = blueColorEmission; 
+            Material.emissive = colors.BlueAsset; 
             Material.emissiveIntensity = 2.2 
         }else if(name.slice(0,1) == 'R'){
             Material.color = redColor;
-            Material.emissive = redColorEmission;
+            Material.emissive = colors.RedAsset;
             Material.emissiveIntensity = 2
         }
         setGeometry(nodes)
         setMaterial(Material)
     },[])   
+    
 
     useEffect(()=>{
         const Material = new THREE.MeshStandardMaterial({
@@ -67,12 +70,12 @@ export default function Drone({name}) {
         }else if(theme.palette.mode=="light"){
             if (name.slice(0,1) == 'B'){
                 Material.color = blueColor;
-                Material.emissive = blueColorEmission; 
+                Material.emissive = blueColorEmissionLight; 
                 Material.emissiveIntensity = 2.2 
                 Material.opacity = 1
             }else if(name.slice(0,1) == 'R'){
                 Material.color = redColor;
-                Material.emissive = redColorEmission;
+                Material.emissive = redColorEmissionLight;
                 Material.emissiveIntensity = 2
                 Material.opacity = 1
             }

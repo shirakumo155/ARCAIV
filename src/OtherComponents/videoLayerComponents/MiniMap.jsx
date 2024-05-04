@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 import React, {useEffect, useRef, useState} from "react"
 import { useCsvDataStore } from "../../Store"
 
@@ -26,6 +26,7 @@ const MiniMap = (props) =>{
     const backgroundPath = import.meta.env.BASE_URL + "texture/GroundTextureMiniMap.png"
     const dronePath = import.meta.env.BASE_URL + "img/IconDrone"
     const mrmPath = import.meta.env.BASE_URL + "img/IconMissile"
+    const theme = useTheme();
 
     // Init
     useEffect(() => {
@@ -55,14 +56,25 @@ const MiniMap = (props) =>{
         }
 
         const teams = ["Blue", "Red"]
-        teams.forEach((teamEl)=>{
-            for(let i=0; i<droneNum; i++){
-                setImage(dronePath+ teamEl +'.png', i, teamEl, teamEl+(i+1), "Drone")
-                for(let j=0; j<missileNums; j++){
-                    setImage(mrmPath+ teamEl +'.png', j, teamEl, teamEl+(i+1), "MRM")
+        if(theme.palette.mode=="dark"){
+            teams.forEach((teamEl)=>{
+                for(let i=0; i<droneNum; i++){
+                    setImage(dronePath+ teamEl +'.png', i, teamEl, teamEl+(i+1), "Drone")
+                    for(let j=0; j<missileNums; j++){
+                        setImage(mrmPath+ teamEl +'.png', j, teamEl, teamEl+(i+1), "MRM")
+                    }
                 }
-            }
-        })
+            })
+        }else{
+            teams.forEach((teamEl)=>{
+                for(let i=0; i<droneNum; i++){
+                    setImage(dronePath+ teamEl +'Light.png', i, teamEl, teamEl+(i+1), "Drone")
+                    for(let j=0; j<missileNums; j++){
+                        setImage(mrmPath+ teamEl +'Light.png', j, teamEl, teamEl+(i+1), "MRM")
+                    }
+                }
+            })
+        }
 
         // This defines an event canvas parent box is resized
         if (!parentRef.current) return;
@@ -73,7 +85,7 @@ const MiniMap = (props) =>{
             });
         resizeObserver.observe(parentRef.current);
         return () => resizeObserver.disconnect(); // clean up 
-    }, []);
+    }, [theme]);
 
     useEffect(()=>{
         const drones = ["Blue/Blue1","Blue/Blue2","Red/Red1","Red/Red2"]
@@ -180,6 +192,8 @@ const MiniMap = (props) =>{
         }
     },[windowSize, backgroundRef.current, canvasBackGroundRef.current])
 
+    
+
     return(
         <Box 
             className="MiniMapCanvasBox" 
@@ -189,7 +203,7 @@ const MiniMap = (props) =>{
             ref={parentRef}
             sx={{
                 backgroundColor: (theme) => theme.palette.mode === "light"
-                    ? "#121221"
+                    ? "#dddddd"
                     : "#121221",
                 opacity: 0.8
             }}>

@@ -5,6 +5,8 @@ import { MeshLineGeometry } from 'meshline'
 import React, { useEffect, useState, useRef } from "react"
 import { useCsvDataStore } from "../Store"
 import { getGradationLineMeshMaterial, hexToRgbA } from '../Utils';
+import { useTheme } from "@mui/material";
+import { tokens } from "../theme";
 
 extend({ MeshLine, MeshLineMaterial, MeshLineGeometry })
 
@@ -18,6 +20,16 @@ const BlueTrailGradColor = [
     [0.97, hexToRgbA('#103e54', 0)],
     [1, hexToRgbA('#103e54', 0)]
 ];
+
+const BlueTrailGradColorLight = [
+    [0, hexToRgbA('#24aded', 0)],
+    [0.08, hexToRgbA('#24aded', 0)],
+    [0.2, hexToRgbA('#24aded', 1)],
+    [0.9, hexToRgbA('#015386', 1)],
+    [0.97, hexToRgbA('#015386', 0)],
+    [1, hexToRgbA('#015386', 0)]
+];
+
 const RedTrailGradColor = [
     [0, hexToRgbA('#FF007F', 0)],
     [0.08, hexToRgbA('#FF007F', 0)],
@@ -25,6 +37,15 @@ const RedTrailGradColor = [
     [0.9, hexToRgbA('#451512', 1)],
     [0.97, hexToRgbA('#451512', 0)],
     [1, hexToRgbA('#451512', 0)]
+];
+
+const RedTrailGradColorLight = [
+    [0, hexToRgbA('#FF007F', 0)],
+    [0.08, hexToRgbA('#FF007F', 0)],
+    [0.2, hexToRgbA('#FF007F', 1)],
+    [0.9, hexToRgbA('#D30208', 1)],
+    [0.97, hexToRgbA('#D30208', 0)],
+    [1, hexToRgbA('#D30208', 0)]
 ];
 
 const trailLength = 1500;
@@ -38,6 +59,8 @@ export default function Trail(props) {
     const [trajectory, setTrajectory] = useState(null)
     const time = useCsvDataStore(state => state.time)
     const dataLength = useCsvDataStore.getState().dataLength
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
     
     // Init
     useEffect(() => {
@@ -56,6 +79,29 @@ export default function Trail(props) {
         }
         setGeometry(new MeshLineGeometry())
     },[])
+
+    useEffect(()=>{
+        const Material = new THREE.MeshStandardMaterial({
+            transparent: true, 
+            }); 
+        if(theme.palette.mode=="dark"){
+            if (props.name.slice(0,1) == 'B'){
+                const blueTrailMaterial = getGradationLineMeshMaterial(trailWidth, BlueTrailGradColor);
+                setMaterial(blueTrailMaterial)
+            }else if(props.name.slice(0,1) == 'R'){
+                const redTrailMaterial = getGradationLineMeshMaterial(trailWidth, RedTrailGradColor);
+                setMaterial(redTrailMaterial)
+            }
+        }else if(theme.palette.mode=="light"){
+            if (props.name.slice(0,1) == 'B'){
+                const blueTrailMaterial = getGradationLineMeshMaterial(trailWidth, BlueTrailGradColorLight);
+                setMaterial(blueTrailMaterial)
+            }else if(props.name.slice(0,1) == 'R'){
+                const redTrailMaterial = getGradationLineMeshMaterial(trailWidth, RedTrailGradColorLight);
+                setMaterial(redTrailMaterial)
+            }
+        }
+    },[theme.palette.mode])
     
     // Animation
     useEffect(() => {

@@ -14,7 +14,13 @@ import Slider from "@mui/material/Slider";
 const ListComponent = ({items, bColor, itemHeight}) => {
     const setTimeLineState = useTimeLineStateStore((state) => state.setTimeLineState); 
     const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
+    const colors = tokens(theme.palette.mode)
+    const [iconColor, setIconColor] = useState("#ffffff")
+
+    useEffect(()=>{
+        (theme.palette.mode=="dark") ? setIconColor("#ffffff") : setIconColor("#353535")
+    },[theme])
+
 
     const handleOnClicked = (buttonName) => (event) => {
         let newItems = items.slice();
@@ -57,14 +63,14 @@ const ListComponent = ({items, bColor, itemHeight}) => {
                     {item.map((itemChild, index2) =>
                     <Box height={itemHeight} display={itemChild.display} sx={{ borderBottom: 2, borderBottomColor: bColor}} >
                         <Button onClick={handleOnClicked(itemChild.name)} sx={{paddingTop: 0, paddingBottom: 0, paddingLeft: 3, paddingRight: 0, justifyContent: 'flex-start'}}>
-                            <ExpandLessIcon fontSize='small' transform={itemChild.isColapsed ? "rotate(90)" : "rotate(-180)"} style={{ color: "white" }} />
+                            <ExpandLessIcon fontSize='small' transform={itemChild.isColapsed ? "rotate(90)" : "rotate(-180)"} style={{ color: iconColor }} />
                             <Typography variant="h6" color={colors.grey[100]} key={index2} >{itemChild.text}</Typography>
                         </Button>
                     </Box>) }
                 </Box>:
                 <Box height={itemHeight} display={item.display} sx={{ borderBottom: 2, borderBottomColor: bColor}}>
                     <Button onClick={handleOnClicked(item.name)} sx={{paddingTop: 0, paddingBottom: 0, paddingLeft: 2, paddingRight: 0, justifyContent: 'flex-start'}}>
-                        <ExpandLessIcon fontSize='small' transform={item.isColapsed ? "rotate(90)" : "rotate(-180)"} style={{ color: "white" }} />
+                        <ExpandLessIcon fontSize='small' transform={item.isColapsed ? "rotate(90)" : "rotate(-180)"} style={{ color: iconColor }} />
                         <Typography variant="h6" color={colors.grey[100]} key={index} >{item.text}</Typography>
                     </Button>
                 </Box>     
@@ -411,8 +417,14 @@ const TimeLine = ({fullScreenMode}) => {
     const setIsPaused = useCsvDataStore((state) => (state.setIsPaused));
     const setTimeLineState = useTimeLineStateStore((state) => (state.setTimeLineState)); 
     const timeLineState = useTimeLineStateStore(state => state.timeLineState);
-    const borderColor = "#1D1D1F"
+    const [borderColor, setBorderColor] = useState("#1D1D1F")
     const backGroundColor = "#10101f"
+    const [iconColor, setIconColor] = useState("#ffffff")
+
+    useEffect(()=>{
+        (theme.palette.mode=="dark") ? setIconColor("#ffffff") : setIconColor("#353535")
+        if(theme.palette.mode=="dark"){ setBorderColor("#1D1D1F")}else{ setBorderColor("#757780")}
+    },[theme])
 
     useEffect(()=>{
         let states = []
@@ -469,7 +481,7 @@ const TimeLine = ({fullScreenMode}) => {
         m = {0}
         sx={{
             backgroundColor: (theme) => theme.palette.mode === "light"
-                ? "#f5f5f5"
+                ? "#dddddd"
                 : backGroundColor,
             borderTop: 2,
             borderTopColor: borderColor,
@@ -480,15 +492,15 @@ const TimeLine = ({fullScreenMode}) => {
             <Button className='controls__icons' aria-label='reqind' onClick={handlePlayAndPause} sx={{padding: 0}}>
                     {
                       isPaused ? (
-                        <PlayArrowSharp fontSize='small' sx={{color:'white'}}/>
+                        <PlayArrowSharp fontSize='small' sx={{color:iconColor}}/>
                       ) : (
-                        <PauseSharp fontSize='small' sx={{color:'white'}}/>
+                        <PauseSharp fontSize='small' sx={{color:iconColor}}/>
                       )
                     }
             </Button>
 
             <Button variant='text' onClick={handlePopOver} className='bottom__icons' sx={{padding: 0}}>
-                <Typography style={{ color: "#fff"}}>{animationSpeed}X</Typography>
+                <Typography style={{ color: iconColor}}>{animationSpeed}X</Typography>
             </Button>
 
             <Popover
@@ -521,14 +533,14 @@ const TimeLine = ({fullScreenMode}) => {
             </Popover>
         
             <Button className='bottom__icons' sx={{padding: 0}} onClick={fullScreenMode}>
-                <Fullscreen fontSize='small' style={{ color: "white" }}/>
+                <Fullscreen fontSize='small' style={{ color: iconColor }}/>
             </Button>
         </Box>
         
         <Box width="100%" display="flex" alignItems="center" direction="row" justifyContent="space-between"
             sx={{
                 backgroundColor: (theme) => theme.palette.mode === "light"
-            ? "#f5f5f5"
+            ? "#dddddd"
             : backGroundColor,
             borderBottom: 2,
             borderBottomColor: borderColor}}>
@@ -555,7 +567,7 @@ const TimeLine = ({fullScreenMode}) => {
         MsOverflowStyle: "none", 
         scrollbarWidth: "none",
         backgroundColor: (theme) => theme.palette.mode === "light"
-                ? "#f5f5f5"
+                ? "#dddddd"
                 : backGroundColor,
         borderBottom: 2,
         borderBottomColor: borderColor
@@ -569,7 +581,7 @@ const TimeLine = ({fullScreenMode}) => {
             
             <Box  width="85%" >
                 {timeLineState &&
-                <GanttComponent items={timeLineState} itemHeight={20} bColor={borderColor} blueColor="#67bddf" redColor="#ff3fc3"/>
+                <GanttComponent items={timeLineState} itemHeight={20} bColor={borderColor} blueColor={colors.BlueAsset} redColor={colors.RedAsset}/>
                 }
             </Box> 
         

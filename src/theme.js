@@ -64,9 +64,12 @@ export const tokens = (mode) => ({
         loadingBackground: "rgba(20, 20, 20, 0.8)",
         loadingBackgroundOpacity: "rgba(0, 0, 0, 0.4)",
         r3fCanvasBackground: "#101020",
-        BlueWinShadow: "0 0 8px 1px #3399FF",
-        RedWinShadow: "0 0 8px 2px #de9bc4",
-        DrawShadow: "0 0 8px 1px #bfbfbf"
+        BlueAsset: "#3399FF",
+        BlueFont: "#3399FF",
+        RedAsset: "#FF007F",
+        RedFont: "#FF007F",
+        SideTableBlue: "#101536",
+        SideTableRed: "#320E1B"
       }
     : {
         grey: {
@@ -127,9 +130,12 @@ export const tokens = (mode) => ({
         loadingBackground: "rgba(185, 185, 185, 0.8)",
         loadingBackgroundOpacity: "rgba(185, 185, 185, 0.4)",
         r3fCanvasBackground: "#dddddd",
-        BlueWinShadow: "0 0 8px 1px #3399FF",
-        RedWinShadow: "0 0 8px 1px #3399FF",
-        DrawShadow: "0 0 8px 1px #3399FF"
+        BlueAsset: "#015386",
+        BlueFont: "#015386",
+        RedAsset: "#D30208",
+        RedFont: "#D30208",
+        SideTableBlue: "#dddddd",
+        SideTableRed: "#dddddd"
       }),
 });
 

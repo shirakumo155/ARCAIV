@@ -8,10 +8,10 @@ export default function HeaderCard(props) {
     let resultColor = colors.grey[200]
     if(props.blueScore>props.redScore){
         result = "Winner: Blue"
-        resultColor = "#3399FF"
+        resultColor = colors.BlueAsset
     }else if(props.blueScore<props.redScore){
         result = "Winner: Red"
-        resultColor = "#FF007F"
+        resultColor = colors.RedAsset
     }else{
         result = "Draw"
     }
@@ -23,7 +23,7 @@ export default function HeaderCard(props) {
             <Typography 
             align="center"
             variant="h2"
-            color={"#FF007F"}
+            color={colors.RedAsset}
             fontWeight="bold"
             sx={{ m: "0 0 3px 0" }}>
             {props.redName}</Typography>
@@ -41,7 +41,7 @@ export default function HeaderCard(props) {
             <Typography 
             align="center"
             variant="h2"
-            color={"#3399FF"}
+            color={colors.BlueAsset}
             fontWeight="bold"
             sx={{ m: "0 0 3px 0" }}>
             {props.blueName}</Typography>
@@ -53,7 +53,7 @@ export default function HeaderCard(props) {
             <Typography 
             align="center"
             variant="h4"
-            color={"#FF007F"}
+            color={colors.RedAsset}
             sx={{ m: "0 0 3px 0" }}>
             {props.redScore}</Typography>
         </Grid>
@@ -69,7 +69,7 @@ export default function HeaderCard(props) {
         <Typography 
         align="center"
         variant="h4"
-        color={"#3399FF"}
+        color={colors.BlueAsset}
         sx={{ m: "0 0 3px 0" }}>
         {props.blueScore}</Typography>
         </Grid>
