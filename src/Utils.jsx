@@ -299,6 +299,14 @@ export function getBattleStats(data, file){
                 let roll = data[el][TeamName + "/" + DroneName + ".att.roll[rad]"]
                 let pitch = data[el][TeamName + "/" + DroneName + ".att.pitch[rad]"]
                 let yaw = data[el][TeamName + "/" + DroneName + ".att.yaw[rad]"]
+                let alt = -data[el][TeamName + "/" + DroneName + ".pos.z[m]"]/1000
+                let altTGT = -data[el][target + ".pos.z[m]"]/1000
+                let velX = (data[el][TeamName + "/" + DroneName + ".vel.x[m/s]"])
+                let velY = (data[el][TeamName + "/" + DroneName + ".vel.y[m/s]"])
+                let velZ = (data[el][TeamName + "/" + DroneName + ".vel.z[m/s]"])
+                let velXtgt = (data[el][target + ".vel.x[m/s]"])
+                let velYtgt = (data[el][target + ".vel.y[m/s]"])
+                let velZtgt = (data[el][target + ".vel.z[m/s]"])
 
                 const x_local = Math.cos(pitch)*Math.cos(yaw)*x + Math.cos(pitch)*Math.sin(yaw)*y - Math.sin(pitch)*z
                 const y_local = (Math.sin(roll)*Math.sin(pitch)*Math.cos(yaw) - Math.cos(roll)*Math.sin(yaw))*x 
@@ -308,7 +316,17 @@ export function getBattleStats(data, file){
                     + (Math.cos(roll)*Math.sin(pitch)*Math.sin(yaw) - Math.sin(roll)*Math.cos(yaw))*y 
                     + Math.cos(roll)*Math.cos(pitch)*z
 
-                targetPosData.push({pos: [x_local, y_local, z_local], isHit: (result[DroneName].Hit[i]!=='') ? true : false})
+                targetPosData.push({pos: [x_local, y_local, z_local], isHit: (result[DroneName].Hit[i]!=='') ? true : false, 
+                    alt: alt, 
+                    altTGT: altTGT,
+                    range: Math.pow((x_local*x_local+y_local*y_local+z_local*z_local),0.5),
+                    azimuth: Math.atan2(y_local, x_local)*180/Math.PI,
+                    elevation: Math.atan2(z_local, x_local)*180/Math.PI,
+                    speed: Math.pow((velX*velX+velY*velY+velZ*velZ),0.5),
+                    speedTGT: Math.pow((velXtgt*velXtgt+velYtgt*velYtgt+velZtgt*velZtgt),0.5),
+                    isVisible: true,
+                    isFiltered: {alt: true, speed: true, range: true, azimuth: true, elevation: true, speedTGT: true, altTGT: true}
+                })
             }
         })
         result[DroneName].shootData = targetPosData

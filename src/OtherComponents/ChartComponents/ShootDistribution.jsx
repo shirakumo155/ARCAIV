@@ -5,15 +5,16 @@ import { KernelSize } from 'postprocessing'
 import { useCsvDataListStore } from "../../Store"
 import { Box, Button, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState, useRef, useContext } from "react"
 import { OrbitControls, Sphere, useGLTF  } from "@react-three/drei"
-import { TextureLoader } from 'three/src/loaders/TextureLoader'
-import {useLoader} from "@react-three/fiber"
+import { ShootingStatsContext } from '../BattleStats';
 
 const redColor = new THREE.Color(0xef4136)
 const redColorEmission = new THREE.Color(0xFF007F)
+const redColorEmissionLight = new THREE.Color(0xD30208)
 const blueColor = new THREE.Color(0x1598d5)
 const blueColorEmission = new THREE.Color(0x3399FF)
+const blueColorEmissionLight = new THREE.Color(0x015386)
 const droneGLTFPath = import.meta.env.BASE_URL + "gltf/drone.glb"
 const windowWidth = window.innerWidth;
 const windowHeight = window.innerHeight;
@@ -24,20 +25,14 @@ const initialCamHeight = 40
 const ShootDistribution = (props)=>{
     const theme = useTheme();
     const colors = tokens(theme.palette.mode)
-    const fileArr = useCsvDataListStore(state => state.fileArr)
+    const [shootStats, setShootStats] = useContext(ShootingStatsContext)
     const [geometry, setGeometry] = useState(null)
     const [material, setMaterial] = useState(null)
-    const [mrmPoints, setMrmPoints] = useState([])
     const name = "Blue"
-    const ref =useRef()
     const [isRotate, setIsRotate] = useState(true)
-
+    const [mrmPoints, setMrmPoints] = useState([])
 
     useEffect(() => {
-        if(fileArr.length ==0 || !fileArr){
-            return
-        }
-  
         const { nodes, _ } = useGLTF(droneGLTFPath);
         const Material = new THREE.MeshStandardMaterial({
             transparent: true, 
@@ -53,32 +48,46 @@ const ShootDistribution = (props)=>{
         }
         setGeometry(nodes)
         setMaterial(Material)
+    },[])  
+    
+    useEffect(()=>{
+        setMrmPoints(shootStats) 
+    },[shootStats])
 
-        const drones = ["Blue1", "Blue2", "Red1", "Red2"]
-        let mrmPointsTemp = []
-        fileArr.forEach(element => {
-            drones.forEach((drone)=>{
-                element.stats[drone].shootData.forEach((mrmPoint)=>{
-                    mrmPointsTemp.push(mrmPoint)
-                })
-            })
-        });
-        setMrmPoints(mrmPointsTemp)
+    useEffect(()=>{
+         
+        if(theme.palette.mode=="dark"){
+            const Material = new THREE.MeshStandardMaterial({
+            transparent: true, 
+            });
+            if (name.slice(0,1) == 'B'){
+                Material.color = blueColor;
+                Material.emissive = blueColorEmission; 
+                Material.emissiveIntensity = 2.2 ;
+                Material.opacity = 0.85
+            }else if(name.slice(0,1) == 'R'){
+                Material.color = redColor;
+                Material.emissive = redColorEmission;
+                Material.emissiveIntensity = 2
+                Material.opacity = 0.85
+            }
+            setMaterial(Material)
+        }else if(theme.palette.mode=="light"){
+            const Material = new THREE.MeshBasicMaterial({});
+            if (name.slice(0,1) == 'B'){
+                Material.color = blueColorEmissionLight;
+                Material.opacity = 1
+            }else if(name.slice(0,1) == 'R'){
+                Material.color = redColorEmissionLight;
+                Material.opacity = 1
+            }
+            setMaterial(Material)
+        }
         
-    },[])   
+    },[theme.palette.mode])
   
     return(
-      <Box 
-        position="relative" 
-        width="100%" 
-        height="100%" 
-        overflow="hidden" 
-        display="flex" 
-        flexDirection="column"
-        alignItems="center"
-        justifyContent="center" >
-        
-        <Box position="relative" flex-grow="1" width="80%" height="80%" overflow="hidden" >
+        <Box position="relative"  width="100%" height="100%" overflow="hidden" >
           {
               // If you have data, then render a scene 
               <Canvas 
@@ -114,12 +123,20 @@ const ShootDistribution = (props)=>{
                     }
 
                     {
+                    mrmPoints.length!==0 &&   
                     mrmPoints.map((el, i)=>{
-                        const color = el.isHit ? "lime" : "hotpink"
-                        const scale = el.isHit ? [0.15,0.15,0.15] : [0.08,0.08,0.08]
+                        let color
+                        let scale
+                        if(theme.palette.mode=="dark"){
+                            color = el.isHit ? "lime" : "hotpink"
+                            scale = el.isHit ? [0.15,0.15,0.15] : [0.08,0.08,0.08]
+                        }else{
+                            color = el.isHit ? "lime" : "hotpink"
+                            scale = el.isHit ? [0.5,0.5,0.5] : [0.35,0.35,0.35]
+                        }
                         return(
                             <mesh
-                                visible
+                                visible={el.isFiltered.alt && el.isFiltered.speed && el.isFiltered.range && el.isFiltered.azimuth && el.isFiltered.elevation && el.isFiltered.altTGT && el.isFiltered.speedTGT}
                                 position={[el.pos[1],-el.pos[2], el.pos[0]]}
                                 rotation={[0, 0, 0]}
                                 scale = {scale}
@@ -131,20 +148,19 @@ const ShootDistribution = (props)=>{
                     })
 
                     }
+                    
+                    <OrbitControls autoRotate={isRotate} autoRotateSpeed={1} onStart={() => setIsRotate(false)}/>
 
-                  <OrbitControls autoRotate={isRotate} autoRotateSpeed={1} onStart={() => setIsRotate(false)}/>
-
-                  {(theme.palette.mode=="dark") &&
-                  <EffectComposer>
-                      <Bloom kernelSize={3} luminanceThreshold={0} luminanceSmoothing={0.4} intensity={2} />
-                      <Bloom kernelSize={KernelSize.HUGE} luminanceThreshold={0} luminanceSmoothing={0.4} intensity={1} />
-                  </EffectComposer>
-                  }
-                  {/*<Stats />*/}
-              </Canvas>
+                    {(theme.palette.mode=="dark") &&
+                    <EffectComposer>
+                        <Bloom kernelSize={3} luminanceThreshold={0} luminanceSmoothing={0.4} intensity={2} />
+                        <Bloom kernelSize={KernelSize.HUGE} luminanceThreshold={0} luminanceSmoothing={0.4} intensity={1} />
+                    </EffectComposer>
+                    }
+                    {/*<Stats />*/}
+                </Canvas>
           }
         </Box>
-      </Box>
       
     )
 }

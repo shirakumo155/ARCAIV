@@ -7,7 +7,7 @@ import { useTheme } from "@mui/material";
 import { tokens } from "../theme";
 import Trail from "./Trail"
 import HeightBar from './HeightBar';
-import { lerp } from "three/src/math/MathUtils";
+
 
 const redColor = new THREE.Color(0xef4136)
 const redColorEmission = new THREE.Color(0xFF007F)
@@ -52,10 +52,11 @@ export default function Drone({name}) {
     
 
     useEffect(()=>{
-        const Material = new THREE.MeshStandardMaterial({
-            transparent: true, 
-            }); 
+         
         if(theme.palette.mode=="dark"){
+            const Material = new THREE.MeshStandardMaterial({
+            transparent: true, 
+            });
             if (name.slice(0,1) == 'B'){
                 Material.color = blueColor;
                 Material.emissive = blueColorEmission; 
@@ -67,20 +68,19 @@ export default function Drone({name}) {
                 Material.emissiveIntensity = 2
                 Material.opacity = 0.85
             }
+            setMaterial(Material)
         }else if(theme.palette.mode=="light"){
+            const Material = new THREE.MeshBasicMaterial({});
             if (name.slice(0,1) == 'B'){
-                Material.color = blueColor;
-                Material.emissive = blueColorEmissionLight; 
-                Material.emissiveIntensity = 2.2 
+                Material.color = blueColorEmissionLight;
                 Material.opacity = 1
             }else if(name.slice(0,1) == 'R'){
-                Material.color = redColor;
-                Material.emissive = redColorEmissionLight;
-                Material.emissiveIntensity = 2
+                Material.color = redColorEmissionLight;
                 Material.opacity = 1
             }
+            setMaterial(Material)
         }
-        setMaterial(Material)
+        
     },[theme.palette.mode])
 
     // Animation
