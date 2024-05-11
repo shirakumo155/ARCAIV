@@ -310,6 +310,7 @@ const BattleStats = () =>{
                       
                     </Box>
                 
+                    {/*
                     <Box
                     backgroundColor={colors.primary[400]}
                     gridColumn="span 1"
@@ -340,6 +341,7 @@ const BattleStats = () =>{
                     >
                         <Histogram width={300} height={windowSize[1]/2*0.8} id={2}/>
                     </Box>
+                    */}
                 </Box> 
                 </Box> 
             </Box> 

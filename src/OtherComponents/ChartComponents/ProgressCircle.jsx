@@ -8,17 +8,18 @@ const ProgressCircle = ({ size = "45", type = "hit", ContextType="shoot"}) => {
   const colors = tokens(theme.palette.mode);
   const [angle, setAngle] = useState(0)
   const [ratio, setRatio] = useState(0)
-  const ref = ContextType=="shoot" ? useRef(useBattleStatsStore.getState().shootStatsArr) : useRef(useBattleStatsStore.getState().vulStatsArr)
-
+  //const ref = ContextType=="shoot" ? useRef(useBattleStatsStore.getState().shootStatsArr) : useRef(useBattleStatsStore.getState().vulStatsArr)
+  const shootStatsArr = ContextType=="shoot" ? useBattleStatsStore(state => state.shootStatsArr) : useBattleStatsStore(state => state.vulStatsArr)
   useEffect(() => {
-    useBattleStatsStore.subscribe(
-    state => (ref.current = ContextType=="shoot" ? state.shootStatsArr : state.vulStatsArr))
+    //useBattleStatsStore.subscribe(
+    //state => (ref.current = ContextType=="shoot" ? state.shootStatsArr : state.vulStatsArr))
   }, [])
+
 
   useEffect(()=>{
     let visibleData = 0 
     let hitData = 0
-    ref.current.forEach((el, i)=>{
+    shootStatsArr.forEach((el, i)=>{
       if(el.isFiltered.alt && el.isFiltered.speed && el.isFiltered.range && el.isFiltered.azimuth && el.isFiltered.elevation && el.isFiltered.altTGT && el.isFiltered.speedTGT){
         visibleData = visibleData + 1
         if(el.isHit){
@@ -36,10 +37,10 @@ const ProgressCircle = ({ size = "45", type = "hit", ContextType="shoot"}) => {
       }
       
     }else if(type=="total"){
-      setAngle(visibleData/ref.current.length * 360)
-      setRatio((visibleData/ref.current.length*100).toFixed(1))
+      setAngle(visibleData/shootStatsArr.length * 360)
+      setRatio((visibleData/shootStatsArr.length*100).toFixed(1))
     }
-  },[ref.current])
+  },[shootStatsArr])
 
   return (
     <Box position ="relative">

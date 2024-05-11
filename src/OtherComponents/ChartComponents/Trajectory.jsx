@@ -85,7 +85,6 @@ const Trajectory = (props) =>{
                                     const x_next = csvData[i+1][name + ".pos.x[m]"]/1000
                                     const y_next = csvData[i+1][name + ".pos.y[m]"]/1000
                                     trajectoryLength = trajectoryLength + Math.pow((x_next-x)*(x_next-x)+(y_next-y)*(y_next-y),0.5)
-                                    console.log(trajectoryLength) 
                                 }
                             }
                             
