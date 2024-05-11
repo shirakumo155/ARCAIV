@@ -2,92 +2,96 @@ import * as THREE from 'three';
 import {Canvas} from "@react-three/fiber"
 import { Bloom, DepthOfField, EffectComposer, Noise, Vignette } from '@react-three/postprocessing'
 import { KernelSize } from 'postprocessing'
-import { useCsvDataListStore } from "../../Store"
 import { Box, Button, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 import { useEffect, useState, useRef, useContext } from "react"
 import { OrbitControls, Sphere, useGLTF  } from "@react-three/drei"
-import { ShootingStatsContext } from '../BattleStats';
+import { useBattleStatsStore} from "../../Store"
 
-const redColor = new THREE.Color(0xef4136)
-const redColorEmission = new THREE.Color(0xFF007F)
-const redColorEmissionLight = new THREE.Color(0xD30208)
-const blueColor = new THREE.Color(0x1598d5)
-const blueColorEmission = new THREE.Color(0x3399FF)
-const blueColorEmissionLight = new THREE.Color(0x015386)
+const DroneColor = new THREE.Color(0x1598d5)
+const DroneColorEmission = new THREE.Color(0xE0E0E0)
+const DroneColorEmissionLight = new THREE.Color(0x6e6e6e)
 const droneGLTFPath = import.meta.env.BASE_URL + "gltf/drone.glb"
 const windowWidth = window.innerWidth;
 const windowHeight = window.innerHeight;
 const clearColorOpacity = 0.5
-const initialCamRadius = 80
+const initialCamRadius = 50
 const initialCamHeight = 40
+
+function updateShootStats(hoveredObj){
+    const shootStatsArr = useBattleStatsStore.getState().shootStatsArr
+    let shootStatsTemp = []
+    shootStatsArr.forEach((el, i) => {
+        let elementTemp = el
+        elementTemp.isHovered = false
+        if(i==hoveredObj.index){
+            elementTemp.isHovered = hoveredObj.isHovered
+        }
+        shootStatsTemp.push(elementTemp)
+    });
+    useBattleStatsStore.setState({shootStatsArr : shootStatsTemp})
+}
 
 const ShootDistribution = (props)=>{
     const theme = useTheme();
     const colors = tokens(theme.palette.mode)
-    const [shootStats, setShootStats] = useContext(ShootingStatsContext)
     const [geometry, setGeometry] = useState(null)
     const [material, setMaterial] = useState(null)
-    const name = "Blue"
     const [isRotate, setIsRotate] = useState(true)
-    const [mrmPoints, setMrmPoints] = useState([])
+    //const ref = useRef(useBattleStatsStore.getState().shootStatsArr)
+    const shootStatsArr = useBattleStatsStore(state => state.shootStatsArr); 
+    const [hoveredObj, setHoveredObj] = useState([])
 
     useEffect(() => {
         const { nodes, _ } = useGLTF(droneGLTFPath);
         const Material = new THREE.MeshStandardMaterial({
             transparent: true, 
             opacity: 0.85 }); 
-        if (name.slice(0,1) == 'B'){
-            Material.color = blueColor;
-            Material.emissive = blueColorEmission; 
-            Material.emissiveIntensity = 2.2 
-        }else if(name.slice(0,1) == 'R'){
-            Material.color = redColor;
-            Material.emissive = redColorEmission;
-            Material.emissiveIntensity = 2
-        }
+
+        Material.color = DroneColor;
+        Material.emissive = DroneColorEmission; 
+        Material.emissiveIntensity = 0.5
+        
         setGeometry(nodes)
         setMaterial(Material)
+
+        //useBattleStatsStore.subscribe(
+        //    state => (ref.current = state.shootStatsArr))
     },[])  
     
-    useEffect(()=>{
-        setMrmPoints(shootStats) 
-    },[shootStats])
 
     useEffect(()=>{
          
         if(theme.palette.mode=="dark"){
             const Material = new THREE.MeshStandardMaterial({
             transparent: true, 
-            });
-            if (name.slice(0,1) == 'B'){
-                Material.color = blueColor;
-                Material.emissive = blueColorEmission; 
-                Material.emissiveIntensity = 2.2 ;
-                Material.opacity = 0.85
-            }else if(name.slice(0,1) == 'R'){
-                Material.color = redColor;
-                Material.emissive = redColorEmission;
-                Material.emissiveIntensity = 2
-                Material.opacity = 0.85
-            }
+            }); 
+            Material.color = DroneColor;
+            Material.emissive = DroneColorEmission; 
+            Material.emissiveIntensity = 0.5 
+  
             setMaterial(Material)
         }else if(theme.palette.mode=="light"){
             const Material = new THREE.MeshBasicMaterial({});
-            if (name.slice(0,1) == 'B'){
-                Material.color = blueColorEmissionLight;
-                Material.opacity = 1
-            }else if(name.slice(0,1) == 'R'){
-                Material.color = redColorEmissionLight;
-                Material.opacity = 1
-            }
+            
+            Material.color = DroneColorEmissionLight;
+            Material.opacity = 1
+           
             setMaterial(Material)
         }
         
     },[theme.palette.mode])
+
+    useEffect(() => {
+        if(Object.keys(hoveredObj).length == 0){
+            return
+        }
+        document.body.style.cursor = hoveredObj.isHovered ? 'pointer' : 'auto'
+        updateShootStats(hoveredObj)
+      }, [hoveredObj])
   
     return(
-        <Box position="relative"  width="100%" height="100%" overflow="hidden" >
+        <Box position="relative" width={props.width} height={props.height} overflow="hidden" >
           {
               // If you have data, then render a scene 
               <Canvas 
@@ -97,7 +101,7 @@ const ShootDistribution = (props)=>{
                     <color attach="background" args={[colors.r3fCanvasBackground]} />
 
                     <mesh rotation={[-0.5 * Math.PI, 0, 0]}>
-                        <torusGeometry args={[25, 0.1, 32, 256]} />
+                        <torusGeometry args={[30, 0.1, 32, 256]} />
                         <meshStandardMaterial attach="material" color="white" transparent emissive="white" emissiveIntensity={0.1} />
                     </mesh>
 
@@ -107,7 +111,7 @@ const ShootDistribution = (props)=>{
                     </mesh>
 
                     <mesh rotation={[-0.5 * Math.PI, 0, 0]}>
-                        <torusGeometry args={[15, 0.1, 32, 256]} />
+                        <torusGeometry args={[10, 0.1, 32, 256]} />
                         <meshStandardMaterial attach="material" color="white" transparent emissive="white" emissiveIntensity={0.1} />
                     </mesh>
 
@@ -123,16 +127,18 @@ const ShootDistribution = (props)=>{
                     }
 
                     {
-                    mrmPoints.length!==0 &&   
-                    mrmPoints.map((el, i)=>{
+                    shootStatsArr.length!==0 &&   
+                    shootStatsArr.map((el, i)=>{
                         let color
                         let scale
                         if(theme.palette.mode=="dark"){
                             color = el.isHit ? "lime" : "hotpink"
                             scale = el.isHit ? [0.15,0.15,0.15] : [0.08,0.08,0.08]
+                            scale = el.isHovered ? [0.5,0.5,0.5] : scale
                         }else{
                             color = el.isHit ? "lime" : "hotpink"
                             scale = el.isHit ? [0.5,0.5,0.5] : [0.35,0.35,0.35]
+                            scale = el.isHovered ? [0.5,0.5,0.5] : scale
                         }
                         return(
                             <mesh
@@ -140,6 +146,11 @@ const ShootDistribution = (props)=>{
                                 position={[el.pos[1],-el.pos[2], el.pos[0]]}
                                 rotation={[0, 0, 0]}
                                 scale = {scale}
+                                key = {"shoot"+i}
+                                onPointerOver={() => {
+                                    setHoveredObj({isHovered: true, element: el, index: i})
+                                }}
+                                onPointerOut={() => {setHoveredObj({isHovered: false, element: el, index: i})}}
                             >
                             <sphereGeometry attach="geometry" args={[1, 16, 16]} />
                             <meshBasicMaterial attach="material" color={color} transparent />

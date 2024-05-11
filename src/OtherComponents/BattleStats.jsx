@@ -2,7 +2,8 @@ import { Box, IconButton, Typography, useTheme, Grid, FormControl, InputLabel, M
 import Header from "./global/Header";
 import React, { useEffect, useState, useRef } from "react"
 import { tokens } from "../theme";
-import { useCsvDataListStore } from "../Store"
+import { useCsvDataListStore, useBattleStatsStore } from "../Store"
+
 import Histogram from "./ChartComponents/Histogram";
 import DoubleHistogram from "./ChartComponents/DoubleHistogram";
 import BattleStatsHeader from "./global/BattleStatsHeader";
@@ -11,16 +12,19 @@ import VulnerabilityDistribution from "./ChartComponents/VulnerabilityDistributi
 import ProgressCircle from "./ChartComponents/ProgressCircle";
 import HistogramRangeSlider from "./ChartComponents/HistogramRangeSlider";
 import DataDescription from "./ChartComponents/DataDescription";
+import Trajectory from "./ChartComponents/Trajectory";
 
-export const ShootingStatsContext = React.createContext()
 
 const BattleStats = () =>{
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const parentRef = useRef()
     const fileArr = useCsvDataListStore(state => state.fileArr)
+    const setShootStatsArr = useBattleStatsStore((state)=>(state.setShootStatsArr))
+    const setVulStatsArr = useBattleStatsStore((state)=>(state.setVulStatsArr))
+    const resetShootStatsArr = useBattleStatsStore((state)=>(state.resetShootStatsArr))
+    const resetVulStatsArr = useBattleStatsStore((state)=>(state.resetVulStatsArr))
     const [windowSize, setWindowSize] = useState([0,0])
-    const [shootStats, setShootStats] = useState([])
     const altIconPath = import.meta.env.BASE_URL + "filterIcon/alt.png";
     const speedIconPath = import.meta.env.BASE_URL + "filterIcon/speed.png";
     const rangeIconPath = import.meta.env.BASE_URL + "filterIcon/range.png";
@@ -30,7 +34,8 @@ const BattleStats = () =>{
     const speedTGTIconPath = import.meta.env.BASE_URL + "filterIcon/speedTGT.png";
 
     useEffect(()=>{
-        
+        resetShootStatsArr()
+        resetVulStatsArr()
         const drones = ["Blue1", "Blue2", "Red1", "Red2"]
         let mrmPointsTemp = []
         fileArr.forEach(element => {
@@ -40,7 +45,17 @@ const BattleStats = () =>{
                 })
             })
         });
-        setShootStats(mrmPointsTemp)
+        setShootStatsArr(mrmPointsTemp)
+
+        let mrmPointsTemp2 = []
+        fileArr.forEach(element => {
+            drones.forEach((drone)=>{
+                element.stats[drone].vulnerabilityData.forEach((mrmPoint)=>{
+                    mrmPointsTemp2.push(mrmPoint)
+                })
+            })
+        });
+        setVulStatsArr(mrmPointsTemp2)
 
         // This defines an event canvas parent box is resized
         if (!parentRef.current) return;
@@ -62,10 +77,6 @@ const BattleStats = () =>{
                 <Box ml="20px"flexGrow={1} display="flex" justifyContent="space-between">
                     <Box width="100%" display="flex" justifyContent="center" alignItems="center">
 
-                    <BattleStatsHeader name="Blue"/>
-                    <Typography variant="h4">VS</Typography>
-                    <BattleStatsHeader name="Red"/>
-
                     </Box>
                 </Box>
             </Box>
@@ -86,17 +97,18 @@ const BattleStats = () =>{
                     display="flex"
                     flexDirection="column"
                     alignItems="center"
+                    p={1}
                     >
                         <Box width="100%" mt={2} ml={2}  display="flex" flexDirection="row">
                             <Typography variant="h3" color={colors.grey[100]} fontWeight="bold">Shooting Stats</Typography>
                         </Box>
-                        <ShootingStatsContext.Provider value={[shootStats, setShootStats]}>
+                   
                         <Box display="grid"
                             gridAutoRows="auto"
                             gridTemplateColumns="repeat(9, 1fr)"
                             gap="0px"
                             width="100%"
-                            p={2}>
+                            >
                             
                             <Box gridColumn="span 1" display="flex" justifyContent="center" alignItems="center">
                                 <Typography color={colors.grey[100]}>#Data</Typography>
@@ -123,14 +135,14 @@ const BattleStats = () =>{
                                 <Typography color={colors.grey[100]}>TGT Alt</Typography>                                
                             </Box>
                             <Box gridColumn="span 1" display="flex" justifyContent="center" alignItems="center">
-                                <Typography color={colors.grey[100]}>TGT Speed</Typography>
+                                <Typography color={colors.grey[100]}>TGT Spd</Typography>
                             </Box>
                             {/* Second Row */}
-                            <Box gridColumn="span 1" display="flex" justifyContent="center" alignItems="center">
-                                <DataDescription type = "total"/>
+                            <Box gridColumn="span 1" display="flex" justifyContent="center" alignItems="center">                       
+                                <DataDescription type = "total" ContextType="shoot"/>
                             </Box>
-                            <Box gridColumn="span 1" display="flex" justifyContent="center" alignItems="center">
-                                <DataDescription type = "hit"/>
+                            <Box gridColumn="span 1" display="flex" justifyContent="center" alignItems="center">                           
+                                <DataDescription type = "hit" ContextType="shoot"/>                            
                             </Box>
                             <Box gridColumn="span 1" display="flex" justifyContent="center" alignItems="center">
                                 <img src={altIconPath} width={30} height={30}/>
@@ -155,47 +167,147 @@ const BattleStats = () =>{
                             </Box>
                             {/* Third Row */}
                             <Box gridColumn="span 1" display="flex" justifyContent="center" alignItems="center">
-                                <ProgressCircle type = "total"/>
+                                <ProgressCircle type = "total" ContextType="shoot"/>
                             </Box>
                             <Box gridColumn="span 1" display="flex" justifyContent="center" alignItems="center">
-                                <ProgressCircle type = "hit"/>
+                                <ProgressCircle type = "hit" ContextType="shoot"/>
                             </Box>
                             <Box gridColumn="span 1" display="flex" justifyContent="center" alignItems="center">
-                                <HistogramRangeSlider width={80} height={40} id={0} data="alt" minValue={0} maxValue={15}/>
+                                <HistogramRangeSlider width={80} height={40} id={0} data="alt" minValue={0} maxValue={15} type="shoot"/>
                             </Box>
                             <Box gridColumn="span 1" display="flex" justifyContent="center" alignItems="center">
-                                <HistogramRangeSlider width={80} height={40} id={0} data="speed" minValue={0} maxValue={700}/>  
+                                <HistogramRangeSlider width={80} height={40} id={0} data="speed" minValue={0} maxValue={700} type="shoot"/>  
                             </Box>
                             <Box gridColumn="span 1" display="flex" justifyContent="center" alignItems="center">
-                                <HistogramRangeSlider width={80} height={40} id={0} data="range" minValue={0} maxValue={50}/>  
+                                <HistogramRangeSlider width={80} height={40} id={0} data="range" minValue={0} maxValue={50} type="shoot"/>  
                             </Box>
                             <Box gridColumn="span 1" display="flex" justifyContent="center" alignItems="center">
-                                <HistogramRangeSlider width={80} height={40} id={0} data="azimuth" minValue={-180} maxValue={180}/>  
+                                <HistogramRangeSlider width={80} height={40} id={0} data="azimuth" minValue={-180} maxValue={180} type="shoot"/>  
                             </Box>
                             <Box gridColumn="span 1" display="flex" justifyContent="center" alignItems="center">
-                                <HistogramRangeSlider width={80} height={40} id={0} data="elevation" minValue={-180} maxValue={180}/>  
+                                <HistogramRangeSlider width={80} height={40} id={0} data="elevation" minValue={-180} maxValue={180} type="shoot"/>  
                             </Box>
                             <Box gridColumn="span 1" display="flex" justifyContent="center" alignItems="center">
-                                <HistogramRangeSlider width={80} height={40} id={0} data="altTGT" minValue={0} maxValue={15}/>  
+                                <HistogramRangeSlider width={80} height={40} id={0} data="altTGT" minValue={0} maxValue={15} type="shoot"/>  
                             </Box>
                             <Box gridColumn="span 1" display="flex" justifyContent="center" alignItems="center">
-                                <HistogramRangeSlider width={80} height={40} id={0} data="speedTGT" minValue={0} maxValue={700}/>  
+                                <HistogramRangeSlider width={80} height={40} id={0} data="speedTGT" minValue={0} maxValue={700} type="shoot"/>  
                             </Box>
                         </Box>
-                        <Box flex-grow="1" width="100%" height="100%" p={2}>
-                            <ShootDistribution />
+                        <Box flex-grow="1" width="100%" height="100%" p={2} display="flex">
+                           <ShootDistribution width="70%" height="100%"/>
+                           <Box width="30%" height="100%" display="flex" justifyContent="center" alignItems="center" >
+                                <Trajectory w={200} h={200} imgSize={15} ContextType={"shoot"}/>
+                           </Box>
                         </Box>
-                        </ShootingStatsContext.Provider>
                     </Box>
                 
                     <Box
                     backgroundColor={colors.primary[400]}
                     gridColumn="span 1"
                     display="flex"
+                    flexDirection="column"
                     alignItems="center"
-                    justifyContent="center"
+                    p={1}
                     >
-                        <VulnerabilityDistribution />
+                        <Box width="100%" mt={2} ml={2}  display="flex" flexDirection="row">
+                            <Typography variant="h3" color={colors.grey[100]} fontWeight="bold">Vulnerability Stats</Typography>
+                        </Box>
+                 
+                        <Box display="grid"
+                            gridAutoRows="auto"
+                            gridTemplateColumns="repeat(9, 1fr)"
+                            gap="0px"
+                            width="100%">
+                            
+                            <Box gridColumn="span 1" display="flex" justifyContent="center" alignItems="center">
+                                <Typography color={colors.grey[100]}>#Data</Typography>
+                            </Box>
+                            <Box gridColumn="span 1" display="flex" justifyContent="center" alignItems="center">
+                                <Typography color={colors.grey[100]}>#Hits</Typography>
+                            </Box>
+                            <Box gridColumn="span 1" display="flex" justifyContent="center" alignItems="center">
+                                <Typography color={colors.grey[100]}>Altitude</Typography>
+                            </Box>
+                            <Box gridColumn="span 1" display="flex" justifyContent="center" alignItems="center">
+                                <Typography color={colors.grey[100]}>Speed</Typography>                       
+                            </Box>
+                            <Box gridColumn="span 1" display="flex" justifyContent="center" alignItems="center">
+                                <Typography color={colors.grey[100]}>Range</Typography>                        
+                            </Box>
+                            <Box gridColumn="span 1" display="flex" justifyContent="center" alignItems="center">
+                                <Typography color={colors.grey[100]}>Azimuth</Typography>                          
+                            </Box>
+                            <Box gridColumn="span 1" display="flex" justifyContent="center" alignItems="center">
+                                <Typography color={colors.grey[100]}>Elevation</Typography>                             
+                            </Box>
+                            <Box gridColumn="span 1" display="flex" justifyContent="center" alignItems="center">
+                                <Typography color={colors.grey[100]}>Shooter Alt</Typography>                                
+                            </Box>
+                            <Box gridColumn="span 1" display="flex" justifyContent="center" alignItems="center">
+                                <Typography color={colors.grey[100]}>Shooter Spd</Typography>
+                            </Box>
+                            {/* Second Row */}
+                            <Box gridColumn="span 1" display="flex" justifyContent="center" alignItems="center">
+                                <DataDescription type = "total" ContextType="vulnerability"/>
+                            </Box>
+                            <Box gridColumn="span 1" display="flex" justifyContent="center" alignItems="center">
+                                <DataDescription type = "hit" ContextType="vulnerability"/>
+                            </Box>
+                            <Box gridColumn="span 1" display="flex" justifyContent="center" alignItems="center">
+                                <img src={altIconPath} width={30} height={30}/>
+                            </Box>
+                            <Box gridColumn="span 1" display="flex" justifyContent="center" alignItems="center">
+                                <img src={speedIconPath} height={20}/>
+                            </Box>
+                            <Box gridColumn="span 1" display="flex" justifyContent="center" alignItems="center">
+                                <img src={rangeIconPath} height={20}/>  
+                            </Box>
+                            <Box gridColumn="span 1" display="flex" justifyContent="center" alignItems="center">
+                                <img src={azimuthIconPath} height={40}/>
+                            </Box>
+                            <Box gridColumn="span 1" display="flex" justifyContent="center" alignItems="center">
+                                <img src={elevationIconPath} height={40}/>
+                            </Box>
+                            <Box gridColumn="span 1" display="flex" justifyContent="center" alignItems="center">
+                                <img src={altTGTIconPath} height={30}/>
+                            </Box>
+                            <Box gridColumn="span 1" display="flex" justifyContent="center" alignItems="center">
+                                <img src={speedTGTIconPath} height={20}/>
+                            </Box>
+                            {/* Third Row */}
+                            <Box gridColumn="span 1" display="flex" justifyContent="center" alignItems="center">
+                                <ProgressCircle type = "total" ContextType="vulnerability"/>
+                            </Box>
+                            <Box gridColumn="span 1" display="flex" justifyContent="center" alignItems="center">
+                                <ProgressCircle type = "hit" ContextType="vulnerability"/>
+                            </Box>
+                            <Box gridColumn="span 1" display="flex" justifyContent="center" alignItems="center">
+                                <HistogramRangeSlider width={80} height={40} id={0} data="alt" minValue={0} maxValue={15} type="vul"/>
+                            </Box>
+                            <Box gridColumn="span 1" display="flex" justifyContent="center" alignItems="center">
+                                <HistogramRangeSlider width={80} height={40} id={0} data="speed" minValue={0} maxValue={700} type="vul"/>  
+                            </Box>
+                            <Box gridColumn="span 1" display="flex" justifyContent="center" alignItems="center">
+                                <HistogramRangeSlider width={80} height={40} id={0} data="range" minValue={0} maxValue={50} type="vul"/>  
+                            </Box>
+                            <Box gridColumn="span 1" display="flex" justifyContent="center" alignItems="center">
+                                <HistogramRangeSlider width={80} height={40} id={0} data="azimuth" minValue={-180} maxValue={180} type="vul"/>  
+                            </Box>
+                            <Box gridColumn="span 1" display="flex" justifyContent="center" alignItems="center">
+                                <HistogramRangeSlider width={80} height={40} id={0} data="elevation" minValue={-180} maxValue={180} type="vul"/>  
+                            </Box>
+                            <Box gridColumn="span 1" display="flex" justifyContent="center" alignItems="center">
+                                <HistogramRangeSlider width={80} height={40} id={0} data="altTGT" minValue={0} maxValue={15} type="vul"/>  
+                            </Box>
+                            <Box gridColumn="span 1" display="flex" justifyContent="center" alignItems="center">
+                                <HistogramRangeSlider width={80} height={40} id={0} data="speedTGT" minValue={0} maxValue={700} type="vul"/>  
+                            </Box>
+                        </Box>
+                        <Box flex-grow="1" width="100%" height="100%" p={2}>
+                            <VulnerabilityDistribution width="70%" height="100%"/>
+                        </Box>
+                      
                     </Box>
                 
                     <Box

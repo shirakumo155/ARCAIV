@@ -73,7 +73,8 @@ const Histogram = (props) =>{
             .attr("class", "bar")
             .attr("x", 1)
             .attr("transform", function(d) { return "translate(" + x(d.x0) + "," + y(d.length) + ")" })
-            .attr("width", function(d) { return x(d.x1) - x(d.x0) -1 ; })
+            .attr("width", function(d) { let w = x(d.x1) - x(d.x0) - 1 
+                if(w<0){ return 0}else{ return w} ; })
             .attr("height", function(d) { return height - y(d.length); })
             .style("fill", colors.greenAccent[400])
 

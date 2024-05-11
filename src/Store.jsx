@@ -36,5 +36,14 @@ export const useTimeLineStateStore = create((set) => ({
   resetTimeLineState: () => set({ timeLineState: [] }),
 }))
 
+export const useBattleStatsStore = create((set) => ({
+  shootStatsArr: new Array(),
+  vulStatsArr: new Array(),
+  setShootStatsArr: (files) => set({ shootStatsArr: files }),
+  resetShootStatsArr: () => set({ shootStatsArr: [] }),
+  setVulStatsArr: (files) => set({ vulStatsArr: files }),
+  resetVulStatsArr: () => set({ vulStatsArr: [] }),
+}))
+
 
 

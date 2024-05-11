@@ -1,19 +1,24 @@
 import { Box, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
-import { ShootingStatsContext } from '../BattleStats';
 import { useEffect, useState, useRef, useContext } from "react"
+import { useBattleStatsStore } from "../../Store"
 
-const ProgressCircle = ({ size = "45", type = "hit"}) => {
+const ProgressCircle = ({ size = "45", type = "hit", ContextType="shoot"}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [shootStats, setShootStats] = useContext(ShootingStatsContext)
   const [angle, setAngle] = useState(0)
   const [ratio, setRatio] = useState(0)
+  const ref = ContextType=="shoot" ? useRef(useBattleStatsStore.getState().shootStatsArr) : useRef(useBattleStatsStore.getState().vulStatsArr)
+
+  useEffect(() => {
+    useBattleStatsStore.subscribe(
+    state => (ref.current = ContextType=="shoot" ? state.shootStatsArr : state.vulStatsArr))
+  }, [])
 
   useEffect(()=>{
     let visibleData = 0 
     let hitData = 0
-    shootStats.forEach((el, i)=>{
+    ref.current.forEach((el, i)=>{
       if(el.isFiltered.alt && el.isFiltered.speed && el.isFiltered.range && el.isFiltered.azimuth && el.isFiltered.elevation && el.isFiltered.altTGT && el.isFiltered.speedTGT){
         visibleData = visibleData + 1
         if(el.isHit){
@@ -31,10 +36,10 @@ const ProgressCircle = ({ size = "45", type = "hit"}) => {
       }
       
     }else if(type=="total"){
-      setAngle(visibleData/shootStats.length * 360)
-      setRatio((visibleData/shootStats.length*100).toFixed(1))
+      setAngle(visibleData/ref.current.length * 360)
+      setRatio((visibleData/ref.current.length*100).toFixed(1))
     }
-  },[shootStats])
+  },[ref.current])
 
   return (
     <Box position ="relative">

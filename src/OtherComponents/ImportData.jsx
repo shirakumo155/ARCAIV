@@ -148,6 +148,11 @@ const ImportData = () =>{
                 flexGrow={1}
                 
                 sx={{
+                "& .MuiDataGrid-toolbarContainer": {
+                    '& .MuiButton-text': {
+                    color: colors.grey[100],
+                    },
+                },
                 "& .MuiDataGrid-root": {
                     border: "none",
                 },

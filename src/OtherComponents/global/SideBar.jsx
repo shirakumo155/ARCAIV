@@ -12,6 +12,7 @@ import LeaderboardSharpIcon from '@mui/icons-material/LeaderboardSharp';
 import QueryStatsSharpIcon from '@mui/icons-material/QueryStatsSharp';
 import VideoLibrarySharpIcon from '@mui/icons-material/VideoLibrarySharp';
 import StorageIcon from '@mui/icons-material/Storage';
+import SmartToyIcon from '@mui/icons-material/SmartToy';
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -112,13 +113,6 @@ const SideBar = () =>{
                   selected={selected}
                   setSelected={setSelected}
                 />
-                <Item
-                  title="Performance"
-                  to="/agentperformance"
-                  icon={<QueryStatsSharpIcon />}
-                  selected={selected}
-                  setSelected={setSelected}
-                />
     
                 <Typography
                   variant="h4"
@@ -128,7 +122,7 @@ const SideBar = () =>{
                   Game
                 </Typography>
                 <Item
-                  title="Summary"
+                  title="Stats"
                   to="/battlestats"
                   icon={<LeaderboardSharpIcon />}
                   selected={selected}
@@ -142,6 +136,21 @@ const SideBar = () =>{
                   setSelected={setSelected}
                 />
     
+                <Typography
+                  variant="h4"
+                  color={colors.grey[300]}
+                  sx={{ m: "15px 0 5px 20px" }}
+                >
+                  XAI SandBox
+                </Typography>
+                <Item
+                  title="ChatGPT"
+                  to="/chatgpt"
+                  icon={<SmartToyIcon />}
+                  selected={selected}
+                  setSelected={setSelected}
+                />
+
                 <Typography
                   variant="h4"
                   color={colors.grey[300]}
@@ -163,6 +172,7 @@ const SideBar = () =>{
                   selected={selected}
                   setSelected={setSelected}
                 />
+                
               </Box>
             </Menu>
           </ProSidebar>

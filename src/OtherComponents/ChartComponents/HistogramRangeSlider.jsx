@@ -1,64 +1,62 @@
 import { Box, IconButton, Typography, useTheme, Slider } from "@mui/material";
 import * as d3 from 'd3'
 import React, { useEffect, useState, useRef, useContext } from "react"
-import { useCsvDataListStore } from "../../Store"
+import { useBattleStatsStore} from "../../Store"
 import { tokens } from "../../theme";
-import { ShootingStatsContext } from '../BattleStats';
+import { throttle } from 'throttle-debounce';
+
 
 function valuetext(value) {
     return `${value}°C`;
 }
 
+function updateBattleStatsState(newValue, type, maxValue, minValue, data){
+    const shootStatsArr = type=="shoot" ? useBattleStatsStore.getState().shootStatsArr : useBattleStatsStore.getState().vulStatsArr
+    let shootStatsTemp = []
+    shootStatsArr.forEach(element => {
+        let elementTemp = element
+        if((newValue[0]*(maxValue-minValue)/100+minValue <= element[data]) && newValue[1]*(maxValue-minValue)/100+minValue >= element[data]){
+            elementTemp.isFiltered[data] = true
+        }else{
+            elementTemp.isFiltered[data] = false
+        }
+        shootStatsTemp.push(elementTemp)
+    });
+    type=="shoot" ? useBattleStatsStore.setState({shootStatsArr: shootStatsTemp}) : useBattleStatsStore.setState({vulStatsArr: shootStatsTemp})
+}
+
+const throttleFunc = throttle(100, (newValue, type, maxValue, minValue, data) => {
+    updateBattleStatsState(newValue, type, maxValue, minValue, data)
+});
+
 const HistogramRangeSlider = (props) =>{
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const [shootStats, setShootStats] = useContext(ShootingStatsContext)
     const [data, setData] = useState([]);
     const svgRef = useRef();
-    const svgCanvasID = "svgCanvas" + props.data + props.id
+    const svgCanvasID = "svgCanvas" + props.data + props.type + props.id 
     const [value, setValue] = React.useState([0, 100]);
     const sliderHeight = 4
     let margin = {top: 0, right: 8, bottom: 0, left: 8}
+    const binSize = (props.type=="alt" || props.type=="altTGT" || props.type=="range") ? 20 : 25
 
     const handleChange = (event, newValue) => {
-        let shootStatsTemp = []
-        shootStats.forEach(element => {
-            let elementTemp = element
-            if((newValue[0]*(props.maxValue-props.minValue)/100+props.minValue <= element[props.data]) && newValue[1]*(props.maxValue-props.minValue)/100+props.minValue >= element[props.data]){
-                elementTemp.isFiltered[props.data] = true
-            }else{
-                elementTemp.isFiltered[props.data] = false
-            }
-            shootStatsTemp.push(elementTemp)
-        });
-        setShootStats(shootStatsTemp)
         setValue(newValue);
+       
+        throttleFunc(newValue, props.type, props.maxValue, props.minValue, props.data)
     };
 
     useEffect(()=>{
-        function cleanup() {
-            let shootStatsTemp = []
-            shootStats.forEach(element => {
-                let elementTemp = element 
-                elementTemp.isFiltered[props.data] = true
-                shootStatsTemp.push(elementTemp)
-            });
-            setShootStats(shootStatsTemp)
-        }
-
-        return cleanup;
-    },[])
-  
-
-    useEffect(()=>{
-        if(!shootStats || !shootStats.length ){
+        const shootStatsArr = props.type=="shoot" ? useBattleStatsStore.getState().shootStatsArr : useBattleStatsStore.getState().vulStatsArr
+        if(!shootStatsArr || !shootStatsArr.length ){
             return
         }
-        let timeDataArr = shootStats.map((el,i)=>{
+        let timeDataArr = shootStatsArr.map((el,i)=>{
             return {value: el[props.data]}
         })
         setData(timeDataArr)
-    }, [shootStats])
+        updateBattleStatsState(value, props.type, props.maxValue, props.minValue, props.data)
+    }, [])
 
     useEffect(() => {
         if(data.length==0){
@@ -89,7 +87,7 @@ const HistogramRangeSlider = (props) =>{
         let histogram = d3.histogram()
             .value(function(d) { return d.value; })   // I need to give the vector of value
             .domain(x.domain())  // then the domain of the graphic
-            .thresholds(x.ticks(40)); // then the numbers of bins
+            .thresholds(x.ticks(binSize)); // then the numbers of bins
 
         // And apply this function to data to get the bins
         let bins = histogram(data);
@@ -107,7 +105,8 @@ const HistogramRangeSlider = (props) =>{
             .attr("class", "bar")
             .attr("x", 1)
             .attr("transform", function(d) { return "translate(" + x(d.x0) + "," + (y(d.length)-sliderHeight) + ")" })
-            .attr("width", function(d) { return x(d.x1) - x(d.x0) -1 ; })
+            .attr("width", function(d) { let w = x(d.x1) - x(d.x0) - 1 
+                if(w<0){ return 0}else{ return w} ; })
             .attr("height", function(d) { return height - y(d.length); })
             .style("fill", function(d) { 
                 if((value[0]*(props.maxValue-props.minValue)/100+props.minValue <= d.x0) && (value[1]*(props.maxValue-props.minValue)/100+props.minValue >= d.x1)){
@@ -117,7 +116,7 @@ const HistogramRangeSlider = (props) =>{
                 }
             })
 
-      }, [data, colors, props.height, value]);
+      }, [colors, value]);
 
 
     return(

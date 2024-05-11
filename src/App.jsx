@@ -7,7 +7,7 @@ import Footer from "./OtherComponents/global/Footer"
 import SideBar from "./OtherComponents/global/SideBar"
 import QuickView from "./OtherComponents/QuickView.jsx"
 import AgentStats from "./OtherComponents/AgentStats"
-import AgentPerformance from "./OtherComponents/AgentPerformance.jsx"
+import ChatGPT from "./OtherComponents/ChatGPT.jsx"
 import BattleStats from "./OtherComponents/BattleStats"
 import Videos from "./OtherComponents/Videos.jsx"
 import ImportData from "./OtherComponents/ImportData"
@@ -30,11 +30,11 @@ export default function App() {
             <Routes>
               <Route path="/" element={<QuickView />} />
               <Route path="/agentstats" element={<AgentStats />} />
-              <Route path="/agentperformance" element={<AgentPerformance />} />
               <Route path="/battlestats" element={<BattleStats />} />
               <Route path="/videos" element={<Videos />} />
               <Route path="/import" element={<ImportData />} />
               <Route path="/export" element={<ExportData />} />
+              <Route path="/chatgpt" element={<ChatGPT />} />
             </Routes>
           </div>
         </div>

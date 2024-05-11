@@ -75,7 +75,8 @@ const DoubleHistogram = (props) =>{
         .append("rect")
             .attr("x", 1)
             .attr("transform", function(d) { return "translate(" + x(d.x0) + "," + y(d.length) + ")"; })
-            .attr("width", function(d) { return x(d.x1) - x(d.x0) -1 ; })
+            .attr("width", function(d) { let w = x(d.x1) - x(d.x0) - 1 
+                if(w<0){ return 0}else{ return w} ; })
             .attr("height", function(d) { return height - y(d.length); })
             .style("fill", "#69b3a2")
             .style("opacity", 0.6)
@@ -87,7 +88,8 @@ const DoubleHistogram = (props) =>{
         .append("rect")
             .attr("x", 1)
             .attr("transform", function(d) { return "translate(" + x(d.x0) + "," + y(d.length) + ")"; })
-            .attr("width", function(d) { return x(d.x1) - x(d.x0) -1 ; })
+            .attr("width", function(d) { let w = x(d.x1) - x(d.x0) - 1 
+                if(w<0){ return 0}else{ return w} ; })
             .attr("height", function(d) { return height - y(d.length); })
             .style("fill", "#404080")
             .style("opacity", 0.6)
